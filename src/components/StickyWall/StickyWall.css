@@ -1,4 +1,26 @@
 .stickywall{
     flex: 3;
-    background-color: bisque;
+    padding: 35px;
 }
+
+.title{
+    display: flex;
+    align-items: center;
+}
+
+.stickywall h1{
+    font-size: 48px;
+    margin: 0;
+}
+
+.stickywall h2{
+    font-size: 48px;
+    font-weight: 300;
+    margin-left: 12px;
+}
+
+.logo{
+    height: 48px;
+    margin-right: 12px;
+}
+
