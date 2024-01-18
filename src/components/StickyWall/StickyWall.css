@@ -1,26 +1,35 @@
-.stickywall{
+.stickywall {
     flex: 3;
     padding: 35px;
 }
 
-.title{
+.title {
     display: flex;
     align-items: center;
 }
 
-.stickywall h1{
+.stickywall h1 {
     font-size: 48px;
     margin: 0;
 }
 
-.stickywall h2{
+.stickywall h2 {
+    margin: 0;
     font-size: 48px;
     font-weight: 300;
     margin-left: 12px;
 }
 
-.logo{
+.logo {
     height: 48px;
     margin-right: 12px;
 }
 
+.group-title-in-the-wall {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    margin-top: 12px;
+    text-transform: uppercase;
+    opacity: 0.6;
+}

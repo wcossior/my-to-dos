@@ -10,6 +10,7 @@ export default class StickyWall extends Component {
                     <img className='logo' src={logo} alt="logo" />
                     <h1>To-dos</h1><h2>wall</h2>
                 </div>
+                <p className='group-title-in-the-wall'>(Ui Design)</p>
             </div>
         )
     }

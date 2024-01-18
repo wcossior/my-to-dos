@@ -12,15 +12,15 @@ export default class GroupSection extends Component {
                     <img className='add-a-group' src={addIcon} alt="add a group icon" />
                 </div>
                 <div className='title-group-container selected'>
-                    {/* <img className='logo-in-title' src={logo} alt="add a group icon" /> */}
-                    <p>Ui Design</p>
+                    <img className='logo-in-title' src={logo} alt="add a group icon" />
+                    <p>UI Design</p>
                 </div>
                 <div className='title-group-container'>
-                    {/* <img className='logo-in-title' src={logo} alt="add a group icon" /> */}
+                    <img className='logo-in-title' src={logo} alt="add a group icon" />
                     <p>Grosery list</p>
                 </div>
                 <div className='title-group-container'>
-                    {/* <img className='logo-in-title' src={logo} alt="add a group icon" /> */}
+                    <img className='logo-in-title' src={logo} alt="add a group icon" />
                     <p>Vacation checklist</p>
                 </div>
             </div>
