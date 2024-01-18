@@ -1,0 +1,27 @@
+.user-icon {
+    height: 40px;
+}
+
+.user-container {
+    margin-top: 35px;
+    display: flex;
+    align-items: center;
+    padding-bottom: 35px;
+    border-bottom: 1px #c9c9c9 solid;
+}
+
+.user-container h2 {
+    margin: 0;
+    margin-left: 12px;
+}
+
+.info-user {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-user p {
+    margin: 0;
+    margin-left: 12px;
+    opacity: 0.6;
+}
