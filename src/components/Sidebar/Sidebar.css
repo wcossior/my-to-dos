@@ -8,55 +8,6 @@
     flex-direction: column;
 }
 
-.sidebar h1 {
-    text-align: center;
-}
-
 .sidebar h2 {
     color: #FE6053;
-}
-
-.groups {
-    margin-bottom: 35px;
-}
-
-.btn-add-a-group{
-    display: flex;
-    margin-bottom: 25px;
-}
-
-.btn-add-a-group h3{
-    margin: 0;
-}
-
-.add-a-group{
-    margin-left: auto;
-    height: 25px;
-    cursor: pointer;
-}
-
-.title-group-container {
-    padding: 10px 25px;
-    cursor: pointer;
-}
-
-.selected {
-    border-radius: 8px;
-    background-color: #EAEAEA;
-}
-
-.sign-out-option {
-    margin-top: auto;
-    display: flex;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-
-.sign-out-option p {
-    margin-top: 0;
-    margin-left: 8px;
-}
-
-.logout-icon {
-    height: 16px;
 }

@@ -1,34 +1,16 @@
 import React, { Component } from 'react';
-import logoutIcon from "../../assets/logout.svg";
-import addIcon from "../../assets/add.svg";
 import "./Sidebar.css";
 import UserSection from '../UserSection/UserSection';
+import GroupSection from '../GroupSection/GroupSection';
+import SignOutSection from '../SignOutSection/SignOutSection';
 
 export default class Sidebar extends Component {
   render() {
     return (
       <div className='sidebar'>
         <UserSection></UserSection>
-        <h1>Menu</h1>
-        <div className='groups'>
-          <div className='btn-add-a-group'>
-            <h3>Groups</h3>
-            <img className='add-a-group' src={addIcon} alt="add a group icon" />
-          </div>
-          <div className='title-group-container selected'>
-            <p>Ui Design</p>
-          </div>
-          <div className='title-group-container'>
-            <p>Grosery list</p>
-          </div>
-          <div className='title-group-container'>
-            <p>Vacation checklist</p>
-          </div>
-        </div>
-        <div className='sign-out-option'>
-          <img className='logout-icon' src={logoutIcon} alt="logout icon" />
-          <p>Sign out</p>
-        </div>
+        <GroupSection></GroupSection>
+        <SignOutSection></SignOutSection>
       </div>
     )
   }

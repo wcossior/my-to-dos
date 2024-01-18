@@ -1,0 +1,42 @@
+.groups {
+    margin-bottom: 35px;
+}
+
+.btn-add-a-group{
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.btn-add-a-group h3{
+    margin: 0;
+}
+
+.add-a-group{
+    margin-left: auto;
+    height: 25px;
+    cursor: pointer;
+}
+
+.title-group-container {
+    padding: 10px 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.title-group-container p{
+    margin: 0;
+    margin-left: 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.selected {
+    border-radius: 8px;
+    background-color: #EAEAEA;
+}
+
+.logo-in-title{
+    height: 18px;
+}
