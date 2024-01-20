@@ -8,8 +8,10 @@
 .sign-out-option p {
     margin-top: 0;
     margin-left: 8px;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .logout-icon {
-    height: 16px;
+    height: 22px;
 }
