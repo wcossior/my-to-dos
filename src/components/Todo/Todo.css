@@ -1,0 +1,55 @@
+.to-do {
+    width: 200px;
+    padding: 25px;
+    border-radius: 7px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    height: min-content;
+}
+
+.to-do p {
+    margin: 0;
+}
+
+.separator {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    opacity: 0.25;
+    border-bottom: 1px solid grey;
+}
+
+.actions {
+    display: flex;
+    gap: 20px;
+}
+
+.xmark-icon {
+    height: 20px;
+    width: auto;
+    fill: #FE6053;
+}
+
+.edit-icon {
+    fill: #FFD19B;
+    width: auto;
+    height: 20px;
+}
+
+.check-icon {
+    width: auto;
+    height: 20px;
+}
+
+.margin-left-auto {
+    margin-left: auto;
+}
+
+.action-icon-container {
+    display: flex;
+    border: 3px solid rgba(128, 128, 128, 0.185);
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    cursor: pointer;
+}
