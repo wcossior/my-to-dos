@@ -1,9 +1,9 @@
 import React, { Component, useState } from 'react';
 import "./StickyWall.css";
-import logo from "../../assets/logo.svg";
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
+import HeaderWall from '../HeaderWall/HeaderWall';
 
 export default function StickyWall() {
     const [checkIconColor, setCheckIconColor] = useState<string>("#4CAF50");
@@ -16,13 +16,7 @@ export default function StickyWall() {
 
     return (
         <div className='stickywall'>
-            <div className='header-wall'>
-                <div className='title'>
-                    <img className='logo' src={logo} alt="logo" />
-                    <h1>To-dos</h1><h2>wall</h2>
-                </div>
-                <p className='group-title-in-the-wall'>(Ui Design)</p>
-            </div>
+            <HeaderWall></HeaderWall>
             <div className='to-dos-container'>
                 <div className='to-do high'>
                     <p>Officiis expedita cupiditate culpa sapiente explicabo eius suscipit iure odit</p>
