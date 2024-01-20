@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import logo from "../../assets/logo.svg";
+import "./HeaderWall.css";
 
 export default class HeaderWall extends Component {
     render() {
