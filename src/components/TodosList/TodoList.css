@@ -1,11 +1,8 @@
 .to-dos-container {
     flex: 1;
-    display: flex;
     margin-top: 32px;
     padding: 40px;
-    flex-wrap: wrap;
-    gap: 30px;
-    border: 1px solid #EAEAEA;
+    border: 1px solid #dddddd;
     border-radius: 15px;
     overflow-y: auto;
 }
