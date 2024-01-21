@@ -5,6 +5,7 @@ import StickyWall from './components/StickyWall/StickyWall';
 import Modal from './components/Modal/Modal';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
+import Form from './components/Form/Form';
 
 function App() {
   const visible = useSelector((state:RootState) => state.modalDelete.modalVisible);
@@ -16,6 +17,7 @@ function App() {
       {visible &&
         <Modal></Modal>
       }
+      <Form></Form>
     </div>
   );
 }

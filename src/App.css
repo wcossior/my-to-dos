@@ -4,3 +4,32 @@
     height: 100vh;
     color: #4E6E96;
 }
+
+.btn {
+    border-radius: 4px;
+    margin-top: 20px;
+    padding: 10px 35px;
+    border: 0;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen';
+}
+
+label{
+    font-size: 18px;
+}
+
+input{
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #80808094;
+    border-radius: 4px;
+    color: #4E6E96;
+    box-sizing: border-box;
+    outline-color: #4E6E96;
+    border-color: #4E6E96;
+}
