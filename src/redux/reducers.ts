@@ -1,27 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { combineReducers } from '@reduxjs/toolkit';
+import deleteModalReducer from './slices/deleteModalSlice';
 
-interface AppState {
-    modalVisible: boolean;
-}
-
-const initialAppState: AppState = {
-    modalVisible: false,
-};
-
-
-const deleteModalReducer = createSlice({
-    name:'modal',
-    initialState: initialAppState,
-    reducers:{
-        showModal: (state) =>{
-            state.modalVisible = true;
-        },
-        hideModal: (state) =>{
-            state.modalVisible = false;
-        }
-    }
+const rootReducer = combineReducers({
+  modalDelete: deleteModalReducer,
 });
 
-
-export const { showModal, hideModal } = deleteModalReducer.actions;
-export default deleteModalReducer.reducer;
+export default rootReducer;
