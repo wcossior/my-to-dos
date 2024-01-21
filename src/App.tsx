@@ -5,10 +5,11 @@ import StickyWall from './components/StickyWall/StickyWall';
 import Modal from './components/Modal/Modal';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
-import Form from './components/Form/Form';
+import FormAddGroup from './components/FormAddGroup/FormAddGroup';
 
 function App() {
-  const visible = useSelector((state:RootState) => state.modalDelete.modalVisible);
+  const visible = useSelector((state: RootState) => state.modalDelete.modalVisible);
+  const visibleForm = useSelector((state: RootState) => state.formAddGroup.formVisible);
 
   return (
     <div className="App">
@@ -17,7 +18,9 @@ function App() {
       {visible &&
         <Modal></Modal>
       }
-      <Form></Form>
+      {visibleForm &&
+        <FormAddGroup></FormAddGroup>
+      }
     </div>
   );
 }
