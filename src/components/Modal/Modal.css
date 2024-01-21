@@ -29,18 +29,18 @@
     justify-content: space-between;
 }
 
-.btn-modal-yes {
+.btn-green {
     background-color: #4CAF50;
 }
 
-.btn-modal-yes:hover {
+.btn-green:hover {
     background-color: #4caf4fe5;
 }
 
-.btn-modal-no {
+.btn-red {
     background-color: #FE6053;
 }
 
-.btn-modal-no:hover {
+.btn-red:hover {
     background-color: #fe6153ec;
 }

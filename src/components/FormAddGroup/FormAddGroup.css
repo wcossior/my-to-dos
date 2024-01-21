@@ -8,7 +8,7 @@
     background-color: #4e6e966e;
     z-index: 1;
 }
-.form{
+.form-add-group{
     position: relative;
     border-radius: 7px;
     max-width: 300px;
@@ -17,13 +17,8 @@
     background-color: white;
 }
 
-.btn-save{
-    background-color: #4CAF50;
+.form-add-group .btn-green{
     width: 100%;
-}
-
-.btn-save:hover{
-    background-color: #4caf4fe5;
 }
 
 .close-icon-container{
@@ -38,7 +33,7 @@
     padding: 2px;
 }
 
-.form .xmark-icon{
+.form-add-group .xmark-icon{
     height: 25px;
     cursor: pointer;
     fill: white;
