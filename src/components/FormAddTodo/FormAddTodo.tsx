@@ -1,23 +1,23 @@
 import React from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch } from 'react-redux';
-import { hideForm } from '../../redux/slices/formAddGroup';
+import { hideFormToAddTodo } from '../../redux/slices/formAddTodo';
 
-const FormAddGroup = () => {
+const FormAddTodo = () => {
     const dispatch = useDispatch();
 
     const closeForm = () => {
-        dispatch(hideForm());
+        dispatch(hideFormToAddTodo());
     }
 
     return (
         <div className='form-container'>
             <div className="form">
-                <p className='title-form'>ADDING A GROUP</p>
+                <p className='title-form'>ADDING A TODO</p>
                 <div className='close-icon-container'>
                     <XmarkIcon className='xmark-icon' onClick={closeForm} />
                 </div>
-                <label>Enter a group for your to-dos: </label>
+                <label>Add a to-do to your group: </label>
                 <input type="text" />
                 <button className='btn btn-green' type="submit">Save</button>
             </div>
@@ -25,4 +25,4 @@ const FormAddGroup = () => {
     )
 }
 
-export default FormAddGroup
+export default FormAddTodo

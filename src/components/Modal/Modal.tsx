@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Modal.css";
 import { useDispatch } from 'react-redux';
-import { hideModal } from '../../redux/slices/deleteModalSlice';
+import { hideModal } from '../../redux/slices/deleteModal';
 
 const Modal = () => {
     const dispatch = useDispatch();

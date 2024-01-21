@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import "./DeleteTodo.css";
-import { showModal } from '../../redux/slices/deleteModalSlice';
+import { showModal } from '../../redux/slices/deleteModal';
 import { useDispatch } from 'react-redux';
 
 export default function DeleteTodo() {
