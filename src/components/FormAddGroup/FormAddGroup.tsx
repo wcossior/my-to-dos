@@ -39,7 +39,7 @@ const FormAddGroup = () => {
                     <XmarkIcon className='xmark-icon' onClick={closeForm} />
                 </div>
                 <label>Enter a group for your to-dos: </label>
-                <input type="text" value={groupTitle} onChange={(e) => setGroupTitle(e.target.value)} />
+                <input type="text" value={groupTitle} onChange={(e) => setGroupTitle(e.target.value)} disabled={submitState!==""}/>
                 <div className='btn-container'>
                     <button className={"btn btn-green " + submitState} type="submit" onClick={addGroup} disabled={!groupTitle || submitState === "saving"}>
                         {
