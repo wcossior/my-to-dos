@@ -1,4 +1,4 @@
-.App{
+.App {
     display: flex;
     position: relative;
     height: 100vh;
@@ -17,11 +17,11 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen';
 }
 
-label{
+label {
     font-size: 18px;
 }
 
-input{
+input {
     width: 100%;
     margin-top: 15px;
     padding: 10px;
@@ -34,7 +34,15 @@ input{
     border-color: #4E6E96;
 }
 
-.form-container{
+.btn:disabled,
+.btn:disabled:hover {
+    background-color: transparent;
+    border: 2px solid rgba(128, 128, 128, 0.342);
+    color: gray;
+    cursor: not-allowed;
+}
+
+.form-container {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -44,7 +52,8 @@ input{
     background-color: #4e6e966e;
     z-index: 1;
 }
-.form{
+
+.form {
     position: relative;
     border-radius: 7px;
     max-width: 300px;
@@ -53,11 +62,11 @@ input{
     background-color: white;
 }
 
-.form .btn-green{
+.form .btn-green {
     width: 100%;
 }
 
-.close-icon-container{
+.close-icon-container {
     display: flex;
     position: absolute;
     right: 0;
@@ -69,13 +78,13 @@ input{
     padding: 2px;
 }
 
-.form .xmark-icon{
+.form .xmark-icon {
     height: 25px;
     cursor: pointer;
     fill: white;
 }
 
-.title-form{
+.title-form {
     font-size: 20px;
     font-weight: 600;
 }

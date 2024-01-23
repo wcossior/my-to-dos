@@ -15,7 +15,7 @@ const Modal = () => {
             <div className="modal">
                 <p>Are you sure to delete?</p>
                 <div className="btns-container">
-                    <button className='btn btn-green'>Yes</button>
+                    <button className='btn btn-green miau'>Yes</button>
                     <button className='btn btn-red' onClick={closeModalDelete}>No</button>
                 </div>
             </div>

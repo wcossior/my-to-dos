@@ -4,11 +4,14 @@ import { useDispatch } from 'react-redux';
 import { hideForm } from '../../redux/slices/formAddGroup';
 import { db } from '../../services/firebase';
 import { addDoc, collection } from 'firebase/firestore';
+import "./FormAddGroup.css";
+import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 
 const FormAddGroup = () => {
     const dispatch = useDispatch();
 
     const [groupTitle, setGroupTitle] = useState("");
+    const [submitState, setSubmitState] = useState("");
 
     const closeForm = () => {
         dispatch(hideForm());
@@ -19,15 +22,17 @@ const FormAddGroup = () => {
             const groupsCollection = collection(db, 'groups');
             const newGroup = { title: groupTitle };
 
+            setSubmitState("saving");
             await addDoc(groupsCollection, newGroup);
-            closeForm();
+            setSubmitState("saved");
         } catch (error) {
             console.error('Error when addding a group:', error);
         }
+
     }
 
     return (
-        <div className='form-container'>
+        <div id='add-group' className='form-container'>
             <div className="form">
                 <p className='title-form'>ADDING A GROUP</p>
                 <div className='close-icon-container'>
@@ -35,7 +40,26 @@ const FormAddGroup = () => {
                 </div>
                 <label>Enter a group for your to-dos: </label>
                 <input type="text" value={groupTitle} onChange={(e) => setGroupTitle(e.target.value)} />
-                <button className='btn btn-green' type="submit" onClick={addGroup}>Save</button>
+                <div className='btn-container'>
+                    <button className={"btn btn-green " + submitState} type="submit" onClick={addGroup} disabled={!groupTitle || submitState === "saving"}>
+                        {
+                            submitState === "saving"
+                                ? "Saving"
+                                : submitState === "saved" ?
+                                    <div className='saved-confirmation'>
+                                        <CheckIcon className='check-icon' />
+                                        <p>Saved</p>
+                                    </div>
+                                    : "Save"
+                        }
+                    </button>
+                    {submitState === "saving" &&
+                        <div>
+                            <div className='line-bottom-btn'></div>
+                            <div className='line-btn'></div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     )
