@@ -1,6 +1,11 @@
-interface Group{
+export interface Group{
     id: string;
     title: string;
 }
 
-export default Group;
+
+export interface Task{
+    id: string;
+    title: string;
+    idGroup: string;
+}

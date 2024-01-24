@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import Group from "../../models/models";
+import {Group} from "../../models/models";
 
 interface initialGroupState {
     formVisible: boolean;
