@@ -1,12 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import deleteModalReducer from './slices/deleteModal';
-import formAddGroupReducer from './slices/formAddGroup';
+import groupReducer from './slices/group';
 import formAddTodoReducer from './slices/formAddTodo';
 import formEditTodoReducer from './slices/formEditTodo';
 
 const rootReducer = combineReducers({
   modalDelete: deleteModalReducer,
-  formAddGroup: formAddGroupReducer,
+  group: groupReducer,
   formAddTodo: formAddTodoReducer,
   formEditTodo: formEditTodoReducer,
 });

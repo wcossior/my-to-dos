@@ -1,5 +1,6 @@
 .groups {
     margin-bottom: 35px;
+    text-align: center;
 }
 
 .btn-add-a-group{
@@ -41,4 +42,11 @@
 
 .logo-in-title{
     height: 28px;
+}
+
+.loading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { created, hideForm, loading } from '../../redux/slices/formAddGroup';
+import { created, hideForm, loading } from '../../redux/slices/group';
 import { db } from '../../services/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import "./FormAddGroup.css";
 import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
 import { RootState } from '../../redux/store';
+import { getGroupsFromFirestore } from '../../services/firebaseServices';
 
 const FormAddGroup = () => {
     const dispatch = useDispatch();
 
     const [groupTitle, setGroupTitle] = useState("");
-    const submitState = useSelector((state: RootState) => state.formAddGroup.submitState);
+    const submitState = useSelector((state: RootState) => state.group.submitState);
 
     const closeForm = () => {
         dispatch(hideForm());
@@ -23,7 +24,6 @@ const FormAddGroup = () => {
         try {
             const groupsCollection = collection(db, 'groups');
             const newGroup = { title: groupTitle };
-
             dispatch(loading());
             await addDoc(groupsCollection, newGroup);
             dispatch(created());
