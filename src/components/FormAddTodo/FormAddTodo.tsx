@@ -1,26 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { hideFormToAddTodo } from '../../redux/slices/formAddTodo';
+import { created, loading } from '../../redux/slices/todos';
+import { postTodoToFireStore } from '../../services/firebaseServices';
+import { RootState } from '../../redux/store';
+import Loading from '../Loading/Loading';
+import ResultCard from '../ResultCard/ResultCard';
 
 const FormAddTodo = () => {
     const dispatch = useDispatch();
+
+    const [todoTitle, setTodoTitle] = useState("");
+    const submitState = useSelector((state: RootState) => state.todos.submitState);
 
     const closeForm = () => {
         dispatch(hideFormToAddTodo());
     }
 
+    const addTodo = async () => {
+        try {
+            dispatch(loading());
+            await postTodoToFireStore(todoTitle);
+            dispatch(created());
+            setTodoTitle("");
+        } catch (error) {
+            console.error('Error when addding a group:', error);
+        }
+    }
+
     return (
+
         <div className='form-container'>
-            <div className="form">
-                <p className='title-form'>ADDING A TODO</p>
-                <div className='close-icon-container'>
-                    <XmarkIcon className='xmark-icon' onClick={closeForm} />
-                </div>
-                <label>Add a to-do to your group: </label>
-                <input type="text" />
-                <button className='btn btn-green' type="submit">Save</button>
-            </div>
+
+            {submitState === "loading" ?
+                <Loading></Loading>
+                :
+                submitState === "created" ?
+                    <ResultCard msg='Todo created successfully' type="todos"></ResultCard>
+                    :
+                    <div className="form">
+                        <p className='title-form'>ADDING A TODO</p>
+                        <div className='close-icon-container'>
+                            <XmarkIcon className='xmark-icon' onClick={closeForm} />
+                        </div>
+                        <label>Add a todo to your group: </label>
+                        <input type="text" value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} disabled={submitState !== ""} />
+                        <button className={"btn btn-green " + submitState} type="submit" onClick={addTodo} disabled={!todoTitle || submitState === "loading"}>Create</button>
+                    </div>
+            }
+
         </div>
     )
 }

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Todo from "../Todo/Todo";
 import "./TodoList.css";
 import { useDispatch, useSelector } from "react-redux";
-import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from "../../redux/slices/todo";
+import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from "../../redux/slices/todos";
 import { getTodosFromFirestore } from "../../services/firebaseServices";
 import { RootState } from "../../redux/store";
 
@@ -10,7 +10,7 @@ export default function TodoList() {
 
     const dispatch = useDispatch();
 
-    const arrayTodos = useSelector((state: RootState) => state.todo.todos);
+    const arrayTodos = useSelector((state: RootState) => state.todos.todos);
 
 
     useEffect(() => {

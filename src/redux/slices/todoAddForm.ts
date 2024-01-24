@@ -1,19 +1,19 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {Task} from "../../models/models";
 
-interface initialTodoState {
+interface initialTodosState {
     todos: Task[];
     gettingTodosState: string;
     errorWhenGettingTodos: string;
 }
 
-const initialState: initialTodoState = {
+const initialState: initialTodosState = {
     todos: [],
     gettingTodosState: "",
     errorWhenGettingTodos: ""
 }
 
-const todoSlice = createSlice({
+const todosSlice = createSlice({
     name: 'todo',
     initialState: initialState,
     reducers: {
@@ -34,5 +34,5 @@ const todoSlice = createSlice({
     }
 });
 
-export const { gettingTodos, gettingTodosCompleted, errorGettingTodos, setTodos } = todoSlice.actions;
-export default todoSlice.reducer;
+export const { gettingTodos, gettingTodosCompleted, errorGettingTodos, setTodos } = todosSlice.actions;
+export default todosSlice.reducer;
