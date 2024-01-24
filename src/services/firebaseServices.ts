@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from './firebase';
 import {Group} from '../models/models';
 import {Task} from '../models/models';
@@ -6,7 +6,8 @@ import {Task} from '../models/models';
 export const getGroupsFromFirestore = async () => {
     try {
         const groupsCollection = collection(db, 'groups');
-        const groupsSnapshot = await getDocs(groupsCollection);
+        const groupsCollectionOrdered = query(groupsCollection, orderBy('title', 'asc'));
+        const groupsSnapshot = await getDocs(groupsCollectionOrdered);
 
         const groupsData:Group[] = [];
         groupsSnapshot.forEach((document) => {
@@ -46,7 +47,8 @@ export const postTodoToFireStore =async ( title: string) => {
 export const getTodosFromFirestore = async () => {
     try {
         const todosCollection = collection(db, 'todos');
-        const todosSnapshot = await getDocs(todosCollection);
+        const todosCollectionOrdered = query(todosCollection, orderBy('title', 'asc'));
+        const todosSnapshot = await getDocs(todosCollectionOrdered);
 
         const todosData:Task[] = [];
         todosSnapshot.forEach((document) => {
