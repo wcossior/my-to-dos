@@ -1,0 +1,51 @@
+.state-card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    max-width: 300px;
+    width: 100%;
+    padding: 30px;
+    max-height: 204px;
+    height: 100%;
+    background-color: white;
+}
+
+.circle {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    border: 3px solid rgba(128, 128, 128, 0.342);
+    height: 30px;
+    width: 30px;
+}
+
+.circular-loading {
+    position: absolute;
+    border-radius: 100%;
+    border: 3px solid transparent;
+    border-top-color: #4E6E96;
+    border-bottom-color: #4E6E96;
+    width: 100%;
+    height: 100%;
+    animation: rotating 1.2s linear infinite;
+}
+
+
+.state-card-container p{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+@keyframes rotating {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

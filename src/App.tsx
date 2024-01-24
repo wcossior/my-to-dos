@@ -31,7 +31,6 @@ function App() {
       {visibleFormEditTodo &&
         <FormEditTodo></FormEditTodo>
       }
-
     </div>
   );
 }

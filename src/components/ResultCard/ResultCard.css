@@ -1,0 +1,29 @@
+.result-card-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    max-width: 300px;
+    width: 100%;
+    padding: 30px;
+    max-height: 204px;
+    height: 100%;
+    background-color: #4CAF50;
+}
+
+.result-card-container .check-icon{
+    fill: white;
+    height: 70px;
+}
+
+.result-card-container p{
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.btn-blank{
+    background-color: white;
+    color: #4CAF50;
+}
