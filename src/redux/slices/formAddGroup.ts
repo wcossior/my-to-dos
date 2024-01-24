@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface initialFormAddGroupState {
     formVisible: boolean;
+    submitState: string;
 }
 
 const initialState: initialFormAddGroupState = {
     formVisible: false,
+    submitState: ""
 }
 
 const formAddGroupSlice = createSlice({
@@ -17,9 +19,18 @@ const formAddGroupSlice = createSlice({
         },
         hideForm: (state) => {
             state.formVisible = false;
+        },
+        loading: (state) =>{
+            state.submitState = "loading";
+        },
+        created: (state) =>{
+            state.submitState = "created";
+        },
+        clean:(state)=>{
+            state.submitState = "";
         }
     }
 });
 
-export const { showForm, hideForm} = formAddGroupSlice.actions;
+export const { showForm, hideForm, loading, created, clean} = formAddGroupSlice.actions;
 export default formAddGroupSlice.reducer;

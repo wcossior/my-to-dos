@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { hideForm } from '../../redux/slices/formAddGroup';
+import { created, hideForm, loading } from '../../redux/slices/formAddGroup';
 import { db } from '../../services/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 import "./FormAddGroup.css";
 import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
+import { RootState } from '../../redux/store';
 
 const FormAddGroup = () => {
     const dispatch = useDispatch();
 
     const [groupTitle, setGroupTitle] = useState("");
-    const [submitState, setSubmitState] = useState("");
+    const submitState = useSelector((state: RootState) => state.formAddGroup.submitState);
 
     const closeForm = () => {
         dispatch(hideForm());
@@ -23,10 +24,10 @@ const FormAddGroup = () => {
             const groupsCollection = collection(db, 'groups');
             const newGroup = { title: groupTitle };
 
-            setSubmitState("saving");
+            dispatch(loading());
             await addDoc(groupsCollection, newGroup);
-            setSubmitState("saved");
-
+            dispatch(created());
+            setGroupTitle("");
         } catch (error) {
             console.error('Error when addding a group:', error);
         }
@@ -35,10 +36,10 @@ const FormAddGroup = () => {
 
     return (
         <div id='add-group' className='form-container'>
-            {submitState === "saving" ?
+            {submitState === "loading" ?
                 <Loading></Loading>
                 :
-                submitState === "saved" ?
+                submitState === "created" ?
                     <ResultCard></ResultCard>
                     :
                     <div className="form">
@@ -49,7 +50,7 @@ const FormAddGroup = () => {
                         <label>Enter a group for your to-dos: </label>
                         <input type="text" value={groupTitle} onChange={(e) => setGroupTitle(e.target.value)} disabled={submitState !== ""} />
                         <div className='btn-container'>
-                            <button className={"btn btn-green " + submitState} type="submit" onClick={addGroup} disabled={!groupTitle || submitState === "saving"}>
+                            <button className={"btn btn-green " + submitState} type="submit" onClick={addGroup} disabled={!groupTitle || submitState === "loading"}>
                                 Create
                             </button>
                         </div>
