@@ -7,7 +7,7 @@ interface initialGroupState {
     groups: Group[];
     errorWhenGettingGroups: string;
     gettingGroupsState: string;
-    idGroupSelected: string;
+    groupSelectedItem: Group;
 }
 
 const initialState: initialGroupState = {
@@ -16,7 +16,10 @@ const initialState: initialGroupState = {
     groups: [],
     errorWhenGettingGroups: "",
     gettingGroupsState: "",
-    idGroupSelected: "",
+    groupSelectedItem: {
+        id: "",
+        title: "",
+    },
 }
 
 const groupSlice = createSlice({
@@ -52,8 +55,8 @@ const groupSlice = createSlice({
         gettingGroupsCompleted: (state) => {
             state.gettingGroupsState = "completed";
         },
-        selectGroup: (state, action: PayloadAction<string>) => {
-            state.idGroupSelected = action.payload;
+        selectGroup: (state, action: PayloadAction<Group>) => {
+            state.groupSelectedItem = action.payload;
         },
     }
 });

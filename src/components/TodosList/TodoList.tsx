@@ -19,9 +19,9 @@ export default function TodoList() {
         const getTodos = async () => {
             try {
                 dispatch(gettingTodos());
-                const { todosData, firstGroupId } = await getTodosFromFirstGroupFirestore();
+                const { todosData, firstGroup } = await getTodosFromFirstGroupFirestore();
                 dispatch(setTodos(todosData));
-                dispatch(selectGroup(firstGroupId));
+                dispatch(selectGroup(firstGroup));
                 dispatch(gettingTodosCompleted());
             } catch (error) {
                 dispatch(errorGettingTodos());

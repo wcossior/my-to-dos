@@ -7,6 +7,7 @@ import { getGroupsFromFirestore, getTodosFromFirestore, getTodosFromFirstGroupFi
 import { RootState } from '../../redux/store';
 import { errorGettingGroups, setGroups, gettingGroups } from '../../redux/slices/group';
 import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
+import { Group } from '../../models/models';
 
 const GroupSection = () => {
     const arrayGroups = useSelector((state: RootState) => state.group.groups);
@@ -34,12 +35,12 @@ const GroupSection = () => {
         getGroups();
     }, []);
 
-    const selectAGroup = async (index: number, groupId: string) => {
+    const selectAGroup = async (index: number, group: Group) => {
         try {
             setSelectedGroup(index);
-            dispatch(selectGroup(groupId));
+            dispatch(selectGroup(group));
             dispatch(gettingTodos());
-            const todos = await getTodosFromFirestore(groupId);
+            const todos = await getTodosFromFirestore(group.id);
             dispatch(setTodos(todos));
             dispatch(gettingTodosCompleted());
         } catch (error) {
@@ -66,7 +67,7 @@ const GroupSection = () => {
                 )
                     : gettingState === "completed" ? (
                         arrayGroups.map((group, index) => (
-                            <div key={group.id} onClick={() => selectAGroup(index, group.id)} className={`title-group-container ${index === selectedGroup ? 'selected' : ''}`}>
+                            <div key={group.id} onClick={() => selectAGroup(index, group)} className={`title-group-container ${index === selectedGroup ? 'selected' : ''}`}>
                                 <p>{group.title}</p>
                             </div>
                         )))

@@ -82,9 +82,9 @@ export const getTodosFromFirstGroupFirestore = async () => {
             groupsData.push(group);
         });
         if (groupsData.length > 0) {
-            const firstGroupId = groupsData[0].id;
+            const firstGroup = groupsData[0];
             const todosCollection = collection(db, 'todos');
-            const todosQuery = query(todosCollection, where('idGroup', '==', firstGroupId), orderBy('title', 'asc'));
+            const todosQuery = query(todosCollection, where('idGroup', '==', firstGroup.id), orderBy('title', 'asc'));
             const todosSnapshot = await getDocs(todosQuery);
 
             const todosData: Task[] = [];
@@ -92,11 +92,14 @@ export const getTodosFromFirstGroupFirestore = async () => {
                 const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup };
                 todosData.push(todo);
             });
-            return { todosData, firstGroupId };
+            return { todosData, firstGroup };
         }
         const todosData: Task[] = [];
-        const firstGroupId = "";
-        return { todosData, firstGroupId };
+        const firstGroup: Group = {
+            id: "",
+            title: "",
+        };
+        return { todosData, firstGroup };
     } catch (error) {
         console.error('Error fetching todos:', error);
         throw error;

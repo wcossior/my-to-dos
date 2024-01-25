@@ -10,7 +10,7 @@ import { RootState } from '../../redux/store';
 
 const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
 
-    const selectGroup = useSelector((state: RootState) => state.group.idGroupSelected);
+    const fistGroup = useSelector((state: RootState) => state.group.groupSelectedItem);
 
     const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
     const getTodos = async () => {
         try {
             dispatch(gettingTodos());
-            const todos = await getTodosFromFirestore(selectGroup);
+            const todos = await getTodosFromFirestore(fistGroup.id);
             dispatch(setTodos(todos));
             dispatch(gettingTodosCompleted());
         } catch (error) {
