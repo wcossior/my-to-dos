@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import {Group} from "../../models/models";
+import { Group } from "../../models/models";
 
 interface initialGroupState {
     formVisible: boolean;
@@ -7,6 +7,7 @@ interface initialGroupState {
     groups: Group[];
     errorWhenGettingGroups: string;
     gettingGroupsState: string;
+    idGroupSelected: string;
 }
 
 const initialState: initialGroupState = {
@@ -14,7 +15,8 @@ const initialState: initialGroupState = {
     submitState: "",
     groups: [],
     errorWhenGettingGroups: "",
-    gettingGroupsState: ""
+    gettingGroupsState: "",
+    idGroupSelected: "",
 }
 
 const groupSlice = createSlice({
@@ -47,12 +49,14 @@ const groupSlice = createSlice({
         gettingGroups: (state) => {
             state.gettingGroupsState = "getting";
         },
-        gettingGroupsCompleted: (state) =>{
+        gettingGroupsCompleted: (state) => {
             state.gettingGroupsState = "completed";
         },
-
+        selectGroup: (state, action: PayloadAction<string>) => {
+            state.idGroupSelected = action.payload;
+        },
     }
 });
 
-export const { showForm, hideForm, loading, created, clean, setGroups, errorGettingGroups, gettingGroups, gettingGroupsCompleted } = groupSlice.actions;
+export const { showForm, hideForm, loading, created, clean, setGroups, errorGettingGroups, gettingGroups, gettingGroupsCompleted, selectGroup } = groupSlice.actions;
 export default groupSlice.reducer;

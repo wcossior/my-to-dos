@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { Group } from '../models/models';
 import { Task } from '../models/models';
@@ -51,11 +51,11 @@ export const deleteTodoFireStore = async (idTodo: string) => {
     }
 }
 
-export const getTodosFromFirestore = async () => {
+export const getTodosFromFirestore = async (idGroup: string) => {
     try {
         const todosCollection = collection(db, 'todos');
-        const todosCollectionOrdered = query(todosCollection, orderBy('title', 'asc'));
-        const todosSnapshot = await getDocs(todosCollectionOrdered);
+        const todosQuery = query(todosCollection, where('idGroup', '==', idGroup), orderBy('title', 'asc'));
+        const todosSnapshot = await getDocs(todosQuery);
 
         const todosData: Task[] = [];
         todosSnapshot.forEach((document) => {
@@ -64,6 +64,39 @@ export const getTodosFromFirestore = async () => {
         });
 
         return todosData;
+    } catch (error) {
+        console.error('Error fetching todos:', error);
+        throw error;
+    }
+};
+
+export const getTodosFromFirstGroupFirestore = async () => {
+    try {
+        const groupsCollection = collection(db, 'groups');
+        const groupsCollectionOrdered = query(groupsCollection, orderBy('title', 'asc'), limit(1));
+        const groupsSnapshot = await getDocs(groupsCollectionOrdered);
+
+        const groupsData: Group[] = [];
+        groupsSnapshot.forEach((document) => {
+            const group = { id: document.id, title: document.data().title };
+            groupsData.push(group);
+        });
+        if (groupsData.length > 0) {
+            const firstGroupId = groupsData[0].id;
+            const todosCollection = collection(db, 'todos');
+            const todosQuery = query(todosCollection, where('idGroup', '==', firstGroupId), orderBy('title', 'asc'));
+            const todosSnapshot = await getDocs(todosQuery);
+
+            const todosData: Task[] = [];
+            todosSnapshot.forEach((document) => {
+                const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup };
+                todosData.push(todo);
+            });
+            return { todosData, firstGroupId };
+        }
+        const todosData: Task[] = [];
+        const firstGroupId = "";
+        return { todosData, firstGroupId };
     } catch (error) {
         console.error('Error fetching todos:', error);
         throw error;

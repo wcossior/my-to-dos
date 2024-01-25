@@ -1,13 +1,16 @@
 import React from 'react';
 import './ResultCard.css';
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clean as cleanGroups, errorGettingGroups, gettingGroups, gettingGroupsCompleted, setGroups } from '../../redux/slices/group';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { clean as cleanTodos, errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 import { cleanDeleteState, hideModal } from '../../redux/slices/deleteModal';
+import { RootState } from '../../redux/store';
 
 const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
+
+    const selectGroup = useSelector((state: RootState) => state.group.idGroupSelected);
 
     const dispatch = useDispatch();
 
@@ -25,7 +28,7 @@ const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
     const getTodos = async () => {
         try {
             dispatch(gettingTodos());
-            const todos = await getTodosFromFirestore();
+            const todos = await getTodosFromFirestore(selectGroup);
             dispatch(setTodos(todos));
             dispatch(gettingTodosCompleted());
         } catch (error) {
@@ -39,7 +42,7 @@ const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
                 getGroups();
                 dispatch(cleanGroups());
                 break;
-        
+
             case "todos":
                 getTodos();
                 dispatch(cleanTodos());

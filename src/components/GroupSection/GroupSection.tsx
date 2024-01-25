@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import addIcon from "../../assets/add.svg";
 import "./GroupSection.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { gettingGroupsCompleted, showForm } from '../../redux/slices/group';
-import { getGroupsFromFirestore } from '../../services/firebaseServices';
+import { getGroupsFromFirestore, getTodosFromFirestore, getTodosFromFirstGroupFirestore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
 import { errorGettingGroups, setGroups, gettingGroups } from '../../redux/slices/group';
+import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 
 const GroupSection = () => {
     const arrayGroups = useSelector((state: RootState) => state.group.groups);
     const gettingState = useSelector((state: RootState) => state.group.gettingGroupsState);
+    const [selectedGroup, setSelectedGroup] = useState(0);
 
     const dispatch = useDispatch();
 
@@ -32,6 +34,19 @@ const GroupSection = () => {
         getGroups();
     }, []);
 
+    const selectGroup = async (index: number, groupId: string) => {
+        try {
+            setSelectedGroup(index);
+            dispatch(gettingTodos());
+            const todos = await getTodosFromFirestore(groupId);
+            dispatch(setTodos(todos));
+            dispatch(gettingTodosCompleted());
+        } catch (error) {
+            dispatch(errorGettingTodos());
+        }
+
+    }
+
     return (
         <div className='groups'>
             <div className='btn-add-a-group'>
@@ -49,8 +64,8 @@ const GroupSection = () => {
                     <p>No hay grupos</p>
                 )
                     : gettingState === "completed" ? (
-                        arrayGroups.map((group) => (
-                            <div key={group.id} className='title-group-container'>
+                        arrayGroups.map((group, index) => (
+                            <div key={group.id} onClick={() => selectGroup(index, group.id)} className={`title-group-container ${index === selectedGroup ? 'selected' : ''}`}>
                                 <p>{group.title}</p>
                             </div>
                         )))
