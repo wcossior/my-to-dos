@@ -13,6 +13,7 @@ const FormAddGroup = () => {
 
     const [groupTitle, setGroupTitle] = useState("");
     const submitState = useSelector((state: RootState) => state.group.submitState);
+    const firstGroup = useSelector((state: RootState) => state.group.groupSelectedItem);
 
     const closeForm = () => {
         dispatch(hideForm());
@@ -21,7 +22,7 @@ const FormAddGroup = () => {
     const addGroup = async () => {
         try {
             dispatch(loading());
-            await postGroupToFireStore(groupTitle);
+            await postGroupToFireStore(groupTitle.toUpperCase());
             dispatch(created());
             setGroupTitle("");
         } catch (error) {

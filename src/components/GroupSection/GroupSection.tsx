@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import addIcon from "../../assets/add.svg";
 import "./GroupSection.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { gettingGroupsCompleted, selectGroup, showForm } from '../../redux/slices/group';
-import { getGroupsFromFirestore, getTodosFromFirestore, getTodosFromFirstGroupFirestore } from '../../services/firebaseServices';
+import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
 import { errorGettingGroups, setGroups, gettingGroups } from '../../redux/slices/group';
 import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
@@ -11,8 +11,8 @@ import { Group } from '../../models/models';
 
 const GroupSection = () => {
     const arrayGroups = useSelector((state: RootState) => state.group.groups);
+    const groupSelected = useSelector((state: RootState) => state.group.groupSelectedItem);
     const gettingState = useSelector((state: RootState) => state.group.gettingGroupsState);
-    const [selectedGroup, setSelectedGroup] = useState(0);
 
     const dispatch = useDispatch();
 
@@ -35,9 +35,8 @@ const GroupSection = () => {
         getGroups();
     }, []);
 
-    const selectAGroup = async (index: number, group: Group) => {
+    const selectAGroup = async (group: Group) => {
         try {
-            setSelectedGroup(index);
             dispatch(selectGroup(group));
             dispatch(gettingTodos());
             const todos = await getTodosFromFirestore(group.id);
@@ -66,8 +65,8 @@ const GroupSection = () => {
                     <p>No hay grupos</p>
                 )
                     : gettingState === "completed" ? (
-                        arrayGroups.map((group, index) => (
-                            <div key={group.id} onClick={() => selectAGroup(index, group)} className={`title-group-container ${index === selectedGroup ? 'selected' : ''}`}>
+                        arrayGroups.map((group) => (
+                            <div key={group.id} onClick={() => selectAGroup(group)} className={`title-group-container ${group.id === groupSelected.id ? 'selected' : ''}`}>
                                 <p>{group.title}</p>
                             </div>
                         )))
