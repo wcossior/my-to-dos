@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import addIcon from "../../assets/add.svg";
 import "./GroupSection.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { gettingGroupsCompleted, showForm } from '../../redux/slices/group';
+import { gettingGroupsCompleted, selectGroup, showForm } from '../../redux/slices/group';
 import { getGroupsFromFirestore, getTodosFromFirestore, getTodosFromFirstGroupFirestore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
 import { errorGettingGroups, setGroups, gettingGroups } from '../../redux/slices/group';
@@ -34,9 +34,10 @@ const GroupSection = () => {
         getGroups();
     }, []);
 
-    const selectGroup = async (index: number, groupId: string) => {
+    const selectAGroup = async (index: number, groupId: string) => {
         try {
             setSelectedGroup(index);
+            dispatch(selectGroup(groupId));
             dispatch(gettingTodos());
             const todos = await getTodosFromFirestore(groupId);
             dispatch(setTodos(todos));
@@ -65,7 +66,7 @@ const GroupSection = () => {
                 )
                     : gettingState === "completed" ? (
                         arrayGroups.map((group, index) => (
-                            <div key={group.id} onClick={() => selectGroup(index, group.id)} className={`title-group-container ${index === selectedGroup ? 'selected' : ''}`}>
+                            <div key={group.id} onClick={() => selectAGroup(index, group.id)} className={`title-group-container ${index === selectedGroup ? 'selected' : ''}`}>
                                 <p>{group.title}</p>
                             </div>
                         )))

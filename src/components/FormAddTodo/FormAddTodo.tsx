@@ -13,6 +13,7 @@ const FormAddTodo = () => {
 
     const [todoTitle, setTodoTitle] = useState("");
     const submitState = useSelector((state: RootState) => state.todos.submitState);
+    const idGroup = useSelector((state: RootState) => state.group.idGroupSelected);
 
     const closeForm = () => {
         dispatch(hideFormToAddTodo());
@@ -21,7 +22,7 @@ const FormAddTodo = () => {
     const addTodo = async () => {
         try {
             dispatch(loading());
-            await postTodoToFireStore(todoTitle);
+            await postTodoToFireStore(todoTitle, idGroup);
             dispatch(created());
             setTodoTitle("");
         } catch (error) {

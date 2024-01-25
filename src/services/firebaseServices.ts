@@ -32,10 +32,10 @@ export const postGroupToFireStore = async (title: string) => {
     }
 }
 
-export const postTodoToFireStore = async (title: string) => {
+export const postTodoToFireStore = async (title: string, idGroup: string) => {
     try {
         const todosCollection = collection(db, 'todos');
-        const newTodo = { title, idGroup: "idGroup" };
+        const newTodo = { title, idGroup };
         await addDoc(todosCollection, newTodo);
     } catch (error) {
         console.error('Error when addding a group:', error);
