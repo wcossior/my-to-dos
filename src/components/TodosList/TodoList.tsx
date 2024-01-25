@@ -11,6 +11,7 @@ export default function TodoList() {
     const dispatch = useDispatch();
 
     const arrayTodos = useSelector((state: RootState) => state.todos.todos);
+    const gettingState = useSelector((state: RootState) => state.todos.gettingTodosState)
 
 
     useEffect(() => {
@@ -30,11 +31,35 @@ export default function TodoList() {
 
     return (
         <div className='to-dos-container'>
-            <div className="center">
+
+            {/* <div className="center">
                 {arrayTodos.map(todo => (
                     <Todo key={todo.id} todo={todo}></Todo>
                 ))}
-            </div>
+            </div> */}
+            {gettingState === "getting" ?
+                <div className='loading-container'>
+                    <div className='circle'>
+                        <div className='circular-loading'></div>
+                    </div>
+                    <p>Getting todos</p>
+                </div>
+                : gettingState === "completed" && arrayTodos.length === 0 ? (
+                    <p>There are not todos to do</p>
+                )
+                    : gettingState === "completed" ? (
+
+                        arrayTodos.map(todo => (
+                            <Todo key={todo.id} todo={todo}></Todo>
+                        ))
+                    )
+                        :
+                        (
+                            <p>The todos could not be obtained</p>
+                        )
+
+            }
         </div>
+
     )
 }
