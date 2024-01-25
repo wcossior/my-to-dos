@@ -31,7 +31,7 @@ export default function TodoList() {
     return (
         <div className='to-dos-container'>
             <div className="center">
-            {arrayTodos.map(todo => (
+                {arrayTodos.map(todo => (
                     <Todo key={todo.id} todo={todo}></Todo>
                 ))}
             </div>

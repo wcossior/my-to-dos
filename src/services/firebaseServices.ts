@@ -1,7 +1,7 @@
-import { addDoc, collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from './firebase';
-import {Group} from '../models/models';
-import {Task} from '../models/models';
+import { Group } from '../models/models';
+import { Task } from '../models/models';
 
 export const getGroupsFromFirestore = async () => {
     try {
@@ -9,9 +9,9 @@ export const getGroupsFromFirestore = async () => {
         const groupsCollectionOrdered = query(groupsCollection, orderBy('title', 'asc'));
         const groupsSnapshot = await getDocs(groupsCollectionOrdered);
 
-        const groupsData:Group[] = [];
+        const groupsData: Group[] = [];
         groupsSnapshot.forEach((document) => {
-            const group = { id: document.id, title: document.data().title};
+            const group = { id: document.id, title: document.data().title };
             groupsData.push(group);
         });
 
@@ -22,7 +22,7 @@ export const getGroupsFromFirestore = async () => {
     }
 };
 
-export const postGroupToFireStore =async ( title: string) => {
+export const postGroupToFireStore = async (title: string) => {
     try {
         const groupsCollection = collection(db, 'groups');
         const newGroup = { title };
@@ -32,7 +32,7 @@ export const postGroupToFireStore =async ( title: string) => {
     }
 }
 
-export const postTodoToFireStore =async ( title: string) => {
+export const postTodoToFireStore = async (title: string) => {
     try {
         const todosCollection = collection(db, 'todos');
         const newTodo = { title, idGroup: "idGroup" };
@@ -42,7 +42,14 @@ export const postTodoToFireStore =async ( title: string) => {
     }
 }
 
-
+export const deleteTodoFireStore = async (idTodo: string) => {
+    try {
+        const documentRef = doc(db, "todos", idTodo)
+        await deleteDoc(documentRef);
+    } catch (error) {
+        console.error("Error when trying to delete the todo:", error);
+    }
+}
 
 export const getTodosFromFirestore = async () => {
     try {
@@ -50,9 +57,9 @@ export const getTodosFromFirestore = async () => {
         const todosCollectionOrdered = query(todosCollection, orderBy('title', 'asc'));
         const todosSnapshot = await getDocs(todosCollectionOrdered);
 
-        const todosData:Task[] = [];
+        const todosData: Task[] = [];
         todosSnapshot.forEach((document) => {
-            const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup};
+            const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup };
             todosData.push(todo);
         });
 

@@ -6,6 +6,7 @@ interface initialTodosState {
     gettingTodosState: string;
     errorWhenGettingTodos: string;
     submitState: string;
+    deleteState: string;
 }
 
 const initialState: initialTodosState = {
@@ -13,6 +14,7 @@ const initialState: initialTodosState = {
     gettingTodosState: "",
     errorWhenGettingTodos: "",
     submitState: "",
+    deleteState: "",
 }
 
 const todosSlice = createSlice({

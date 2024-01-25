@@ -10,7 +10,7 @@ export default function Todo({ todo }: { todo: Task }) {
             <p>{todo.title}</p>
             <div className='separator'></div>
             <div className="actions">
-                <DeleteTodo></DeleteTodo>
+                <DeleteTodo todoId = {todo.id}></DeleteTodo>
                 <EditTodo></EditTodo>
                 <CheckTodo></CheckTodo>
             </div>

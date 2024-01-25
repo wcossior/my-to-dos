@@ -4,7 +4,7 @@ import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import { useDispatch } from 'react-redux';
 import { clean as cleanGroups, errorGettingGroups, gettingGroups, gettingGroupsCompleted, setGroups } from '../../redux/slices/group';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
-import { clean as cleanTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
+import { clean as cleanTodos, errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 
 const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
 
@@ -28,7 +28,7 @@ const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
             dispatch(setTodos(todos));
             dispatch(gettingTodosCompleted());
         } catch (error) {
-            dispatch(errorGettingGroups());
+            dispatch(errorGettingTodos());
         }
     };
 
