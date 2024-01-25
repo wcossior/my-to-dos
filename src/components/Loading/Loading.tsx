@@ -7,7 +7,7 @@ const Loading = () => {
             <div className='circle'>
                 <div className='circular-loading'></div>
             </div>
-                <p>Creating</p>
+                <p>Please wait</p>
         </div>
     )
 }

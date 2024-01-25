@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { clean as cleanGroups, errorGettingGroups, gettingGroups, gettingGroupsCompleted, setGroups } from '../../redux/slices/group';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { clean as cleanTodos, errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
+import { cleanDeleteState, hideModal } from '../../redux/slices/deleteModal';
 
 const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
 
@@ -42,6 +43,8 @@ const ResultCard = ({ msg, type }: { msg: string, type: string }) => {
             case "todos":
                 getTodos();
                 dispatch(cleanTodos());
+                dispatch(cleanDeleteState());
+                dispatch(hideModal());
                 break;
         }
     }

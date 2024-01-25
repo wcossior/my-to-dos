@@ -1,37 +1,27 @@
 import React from 'react';
 import "./Modal.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { hideModal } from '../../redux/slices/deleteModal';
+import { deleted, hideModal, loading } from '../../redux/slices/deleteModal';
 import { deleteTodoFireStore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
 import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
+import Loading from '../Loading/Loading';
+import ResultCard from '../ResultCard/ResultCard';
 
 const Modal = () => {
     const dispatch = useDispatch();
     const idTodo = useSelector((state: RootState) => state.modalDelete.idTodo);
-
+    const deleteState = useSelector((state: RootState) => state.modalDelete.deletingState);
 
     const closeModalDelete = () => {
         dispatch(hideModal());
     }
 
-    const getTodos = async () => {
-        try {
-            dispatch(gettingTodos());
-            const todos = await getTodosFromFirestore();
-            dispatch(setTodos(todos));
-            dispatch(gettingTodosCompleted());
-        } catch (error) {
-            dispatch(errorGettingTodos());
-        }
-    };
-
     const deleteTodo = async () => {
         try {
+            dispatch(loading());
             await deleteTodoFireStore(idTodo);
-            getTodos();
-            dispatch(hideModal());
-           
+            dispatch(deleted());
         } catch (error) {
             console.error('Error when addding a group:', error);
         }
@@ -39,13 +29,22 @@ const Modal = () => {
 
     return (
         <div className='modal-bg'>
-            <div className="modal">
-                <p>Are you sure to delete?</p>
-                <div className="btns-container">
-                    <button className='btn btn-green miau' onClick={deleteTodo}>Yes</button>
-                    <button className='btn btn-red' onClick={closeModalDelete}>No</button>
-                </div>
-            </div>
+            {deleteState === "loading" ?
+                <Loading></Loading>
+                :
+                deleteState === "deleted" ?
+                    <ResultCard msg='Todo deleted successfully' type="todos"></ResultCard>
+                    :
+                    <div className="modal">
+                        <div>
+                            <p>Are you sure to delete?</p>
+                            <div className="btns-container">
+                                <button className='btn btn-green miau' onClick={deleteTodo}>Yes</button>
+                                <button className='btn btn-red' onClick={closeModalDelete}>No</button>
+                            </div>
+                        </div>
+                    </div>
+            }
         </div>
     )
 }
