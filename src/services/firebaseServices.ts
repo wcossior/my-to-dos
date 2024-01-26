@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, limit, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { Group } from '../models/models';
 import { Task } from '../models/models';
@@ -35,13 +35,28 @@ export const postGroupToFireStore = async (title: string) => {
 export const postTodoToFireStore = async (title: string, idGroup: string) => {
     try {
         const todosCollection = collection(db, 'todos');
-        const newTodo = { title, idGroup };
+        const newTodo = { title, idGroup, todoCompleted: false };
         await addDoc(todosCollection, newTodo);
     } catch (error) {
         console.error('Error when addding a group:', error);
         throw error;
     }
 }
+
+export const checkTodoToFireStore = async (idTodo: string, todoCompleted: boolean) => {
+    try {
+        const todosCollection = collection(db, 'todos');
+        const todoDoc = doc(todosCollection, idTodo);
+
+        const updatedTodo = { todoCompleted };
+
+        await updateDoc(todoDoc, updatedTodo);
+    } catch (error) {
+        console.error('Error when updating check todo:', error);
+        throw error;
+    }
+}
+
 
 export const deleteTodoFireStore = async (idTodo: string) => {
     try {
@@ -61,7 +76,7 @@ export const getTodosFromFirestore = async (idGroup: string) => {
 
         const todosData: Task[] = [];
         todosSnapshot.forEach((document) => {
-            const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup };
+            const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup, todoCompleted: document.data().todoCompleted };
             todosData.push(todo);
         });
         return todosData;
@@ -90,7 +105,7 @@ export const getTodosFromFirstGroupFirestore = async () => {
 
             const todosData: Task[] = [];
             todosSnapshot.forEach((document) => {
-                const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup };
+                const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup, todoCompleted: document.data().todoCompleted };
                 todosData.push(todo);
             });
             return { todosData, firstGroup };

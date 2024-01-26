@@ -5,6 +5,7 @@ import "./Todo.css";
 import { Task } from "../../models/models";
 
 export default function Todo({ todo }: { todo: Task }) {
+    
     return (
         <div className='to-do'>
             <p>{todo.title}</p>
@@ -12,7 +13,7 @@ export default function Todo({ todo }: { todo: Task }) {
             <div className="actions">
                 <DeleteTodo todoId = {todo.id}></DeleteTodo>
                 <EditTodo></EditTodo>
-                <CheckTodo></CheckTodo>
+                <CheckTodo todo={todo}></CheckTodo>
             </div>
         </div>
     )
