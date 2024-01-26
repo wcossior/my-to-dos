@@ -8,6 +8,7 @@ import { RootState } from '../../redux/store';
 import { errorRequestGroups, setGroups, gettingGroups } from '../../redux/slices/group';
 import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 import { Group } from '../../models/models';
+import { showAddGroup_form } from '../../redux/slices/group1';
 
 const GroupSection = () => {
     const arrayGroups = useSelector((state: RootState) => state.group.groups);
@@ -18,7 +19,7 @@ const GroupSection = () => {
     const dispatch = useDispatch();
 
     const showFormModal = () => {
-        dispatch(showForm());
+        dispatch(showAddGroup_form());
     }
 
     useEffect(() => {

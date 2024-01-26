@@ -7,6 +7,7 @@ import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
 import { RootState } from '../../redux/store';
 import { postGroupToFireStore } from '../../services/firebaseServices';
+import { hideAddGroup_form } from '../../redux/slices/group1';
 
 const FormAddGroup = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const FormAddGroup = () => {
     const error = useSelector((state: RootState) => state.group.errorGroups);
 
     const closeForm = () => {
-        dispatch(hideForm());
+        dispatch(hideAddGroup_form());
     }
 
     const addGroup = async () => {
