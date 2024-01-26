@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { created, errorRequestGroups, hideForm, loading } from '../../redux/slices/group';
+import { errorRequestGroups } from '../../redux/slices/group';
 import "./FormAddGroup.css";
 import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
 import { RootState } from '../../redux/store';
 import { postGroupToFireStore } from '../../services/firebaseServices';
-import { hideAddGroup_form } from '../../redux/slices/group1';
+import { created_group, creating_group, hideAddGroup_form } from '../../redux/slices/group1';
 
 const FormAddGroup = () => {
     const dispatch = useDispatch();
 
     const [groupTitle, setGroupTitle] = useState("");
-    const submitState = useSelector((state: RootState) => state.group.submitState);
+    const addGroupState = useSelector((state: RootState) => state.group1.addingGroup_state);
     const error = useSelector((state: RootState) => state.group.errorGroups);
 
     const closeForm = () => {
@@ -22,9 +22,9 @@ const FormAddGroup = () => {
 
     const addGroup = async () => {
         try {
-            dispatch(loading());
+            dispatch(creating_group());
             await postGroupToFireStore(groupTitle.toUpperCase());
-            dispatch(created());
+            dispatch(created_group());
             setGroupTitle("");
         } catch (error) {
             dispatch(errorRequestGroups());
@@ -34,10 +34,10 @@ const FormAddGroup = () => {
 
     return (
         <div id='add-group' className='form-container'>
-            {submitState === "loading" ?
+            {addGroupState === "creating" ?
                 <Loading></Loading>
                 :
-                submitState === "created" || error ?
+                addGroupState === "created" || error ?
                     <ResultCard errorMsg={error} msg='Group created successfully' type="groups"></ResultCard>
                     :
                     <div className="form">
@@ -46,9 +46,9 @@ const FormAddGroup = () => {
                             <XmarkIcon className='xmark-icon' onClick={closeForm} />
                         </div>
                         <label>Enter a group for your todos: </label>
-                        <input type="text" value={groupTitle} onChange={(e) => setGroupTitle(e.target.value)} disabled={submitState !== ""} />
+                        <input type="text" value={groupTitle} onChange={(e) => setGroupTitle(e.target.value)} disabled={addGroupState !== ""} />
                         <div className='btn-container'>
-                            <button className={"btn btn-green " + submitState} type="submit" onClick={addGroup} disabled={!groupTitle || submitState === "loading"}>
+                            <button className={"btn btn-green " + addGroupState} type="submit" onClick={addGroup} disabled={!groupTitle || addGroupState === "loading"}>
                                 Create
                             </button>
                         </div>

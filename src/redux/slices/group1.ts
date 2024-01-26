@@ -34,12 +34,25 @@ const groupSlice = createSlice({
         hideAddGroup_form: (state) => {
             state.addGroup_form = false;
         },
+        creating_group: (state) => {
+            state.addingGroup_state = "creating";
+        },
+        created_group: (state) => {
+            state.addingGroup_state = "created";
+        },
+        addingGroupState_clean: (state) => {
+            state.addingGroup_state = "";
+        },
     }
 });
 
 export const {
     showAddGroup_form,
     hideAddGroup_form,
+    creating_group,
+    created_group,
+    addingGroupState_clean,
+
 } = groupSlice.actions;
 
 export default groupSlice.reducer;

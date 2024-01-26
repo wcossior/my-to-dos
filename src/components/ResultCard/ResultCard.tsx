@@ -7,6 +7,7 @@ import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/fi
 import { clean as cleanTodos, errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 import { cleanDeleteState, hideModal } from '../../redux/slices/deleteModal';
 import { RootState } from '../../redux/store';
+import { addingGroupState_clean } from '../../redux/slices/group1';
 
 const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorMsg: string }) => {
 
@@ -41,7 +42,7 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
         switch (type) {
             case "groups":
                 getGroups();
-                dispatch(cleanGroups());
+                dispatch(addingGroupState_clean());
                 break;
 
             case "todos":
