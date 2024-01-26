@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { created, hideForm, loading } from '../../redux/slices/group';
+import { created, errorRequestGroups, hideForm, loading } from '../../redux/slices/group';
 import "./FormAddGroup.css";
 import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
@@ -13,7 +13,7 @@ const FormAddGroup = () => {
 
     const [groupTitle, setGroupTitle] = useState("");
     const submitState = useSelector((state: RootState) => state.group.submitState);
-    const firstGroup = useSelector((state: RootState) => state.group.groupSelectedItem);
+    const error = useSelector((state: RootState) => state.group.errorGroups);
 
     const closeForm = () => {
         dispatch(hideForm());
@@ -26,7 +26,7 @@ const FormAddGroup = () => {
             dispatch(created());
             setGroupTitle("");
         } catch (error) {
-            console.error('Error when addding a group:', error);
+            dispatch(errorRequestGroups());
         }
 
     }
@@ -36,8 +36,8 @@ const FormAddGroup = () => {
             {submitState === "loading" ?
                 <Loading></Loading>
                 :
-                submitState === "created" ?
-                    <ResultCard msg='Group created successfully' type="groups"></ResultCard>
+                submitState === "created" || error ?
+                    <ResultCard errorMsg={error} msg='Group created successfully' type="groups"></ResultCard>
                     :
                     <div className="form">
                         <p className='title-form'>ADDING A GROUP</p>

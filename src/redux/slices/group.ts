@@ -5,7 +5,7 @@ interface initialGroupState {
     formVisible: boolean;
     submitState: string;
     groups: Group[];
-    errorWhenGettingGroups: string;
+    errorGroups: string;
     gettingGroupsState: string;
     groupSelectedItem: Group;
 }
@@ -14,7 +14,7 @@ const initialState: initialGroupState = {
     formVisible: false,
     submitState: "",
     groups: [],
-    errorWhenGettingGroups: "",
+    errorGroups: "",
     gettingGroupsState: "",
     groupSelectedItem: {
         id: "",
@@ -43,11 +43,13 @@ const groupSlice = createSlice({
         },
         setGroups: (state, action: PayloadAction<Group[]>) => {
             state.groups = action.payload;
-            state.errorWhenGettingGroups = "";
+            state.errorGroups = "";
             state.gettingGroupsState = "";
         },
-        errorGettingGroups: (state) => {
-            state.errorWhenGettingGroups = "Error when getting groups";
+        errorRequestGroups: (state) => {
+            state.errorGroups = "Connection problems";
+            state.gettingGroupsState = "";
+            state.submitState = "";
         },
         gettingGroups: (state) => {
             state.gettingGroupsState = "getting";
@@ -61,5 +63,5 @@ const groupSlice = createSlice({
     }
 });
 
-export const { showForm, hideForm, loading, created, clean, setGroups, errorGettingGroups, gettingGroups, gettingGroupsCompleted, selectGroup } = groupSlice.actions;
+export const { showForm, hideForm, loading, created, clean, setGroups, errorRequestGroups, gettingGroups, gettingGroupsCompleted, selectGroup } = groupSlice.actions;
 export default groupSlice.reducer;

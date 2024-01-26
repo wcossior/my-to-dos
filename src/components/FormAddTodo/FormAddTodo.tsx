@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { hideFormToAddTodo } from '../../redux/slices/formAddTodo';
-import { created, loading } from '../../redux/slices/todos';
+import { created, errorRequestTodo, loading } from '../../redux/slices/todos';
 import { postTodoToFireStore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
 import Loading from '../Loading/Loading';
@@ -14,6 +14,7 @@ const FormAddTodo = () => {
     const [todoTitle, setTodoTitle] = useState("");
     const submitState = useSelector((state: RootState) => state.todos.submitState);
     const fistGroup = useSelector((state: RootState) => state.group.groupSelectedItem);
+    const error = useSelector((state: RootState) => state.todos.errorTodo);
 
     const closeForm = () => {
         dispatch(hideFormToAddTodo());
@@ -26,7 +27,7 @@ const FormAddTodo = () => {
             dispatch(created());
             setTodoTitle("");
         } catch (error) {
-            console.error('Error when addding a group:', error);
+            dispatch(errorRequestTodo());
         }
     }
 
@@ -37,8 +38,8 @@ const FormAddTodo = () => {
             {submitState === "loading" ?
                 <Loading></Loading>
                 :
-                submitState === "created" ?
-                    <ResultCard msg='Todo created successfully' type="todos"></ResultCard>
+                submitState === "created" || error ?
+                    <ResultCard errorMsg={error} msg='Todo created successfully' type="todos"></ResultCard>
                     :
                     <div className="form">
                         <p className='title-form'>ADDING A TODO</p>

@@ -14,7 +14,6 @@ export const getGroupsFromFirestore = async () => {
             const group = { id: document.id, title: document.data().title };
             groupsData.push(group);
         });
-
         return groupsData;
     } catch (error) {
         console.error('Error fetching groups:', error);
@@ -29,6 +28,7 @@ export const postGroupToFireStore = async (title: string) => {
         await addDoc(groupsCollection, newGroup);
     } catch (error) {
         console.error('Error when addding a group:', error);
+        throw error;
     }
 }
 
@@ -39,6 +39,7 @@ export const postTodoToFireStore = async (title: string, idGroup: string) => {
         await addDoc(todosCollection, newTodo);
     } catch (error) {
         console.error('Error when addding a group:', error);
+        throw error;
     }
 }
 
@@ -48,6 +49,7 @@ export const deleteTodoFireStore = async (idTodo: string) => {
         await deleteDoc(documentRef);
     } catch (error) {
         console.error("Error when trying to delete the todo:", error);
+        throw error;
     }
 }
 
@@ -62,7 +64,6 @@ export const getTodosFromFirestore = async (idGroup: string) => {
             const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup };
             todosData.push(todo);
         });
-
         return todosData;
     } catch (error) {
         console.error('Error fetching todos:', error);
@@ -75,8 +76,8 @@ export const getTodosFromFirstGroupFirestore = async () => {
         const groupsCollection = collection(db, 'groups');
         const groupsCollectionOrdered = query(groupsCollection, orderBy('title', 'asc'), limit(1));
         const groupsSnapshot = await getDocs(groupsCollectionOrdered);
-
         const groupsData: Group[] = [];
+
         groupsSnapshot.forEach((document) => {
             const group = { id: document.id, title: document.data().title };
             groupsData.push(group);

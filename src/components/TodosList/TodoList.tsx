@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Todo from "../Todo/Todo";
 import "./TodoList.css";
 import { useDispatch, useSelector } from "react-redux";
-import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from "../../redux/slices/todos";
+import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from "../../redux/slices/todos";
 import { getTodosFromFirestore, getTodosFromFirstGroupFirestore } from "../../services/firebaseServices";
 import { RootState } from "../../redux/store";
 import { selectGroup } from "../../redux/slices/group";
@@ -13,6 +13,7 @@ export default function TodoList() {
 
     const arrayTodos = useSelector((state: RootState) => state.todos.todos);
     const gettingState = useSelector((state: RootState) => state.todos.gettingTodosState)
+    const error = useSelector((state: RootState) => state.todos.errorTodo)
 
 
     useEffect(() => {
@@ -24,7 +25,7 @@ export default function TodoList() {
                 dispatch(selectGroup(firstGroup));
                 dispatch(gettingTodosCompleted());
             } catch (error) {
-                dispatch(errorGettingTodos());
+                dispatch(errorRequestTodo());
             }
         };
 
@@ -51,7 +52,7 @@ export default function TodoList() {
                     )
                         :
                         (
-                            <p>The todos could not be obtained</p>
+                            <p>{error}</p>
                         )
 
             }

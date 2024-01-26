@@ -4,7 +4,7 @@ import {Task} from "../../models/models";
 interface initialTodosState {
     todos: Task[];
     gettingTodosState: string;
-    errorWhenGettingTodos: string;
+    errorTodo: string;
     submitState: string;
     deleteState: string;
 }
@@ -12,7 +12,7 @@ interface initialTodosState {
 const initialState: initialTodosState = {
     todos: [],
     gettingTodosState: "",
-    errorWhenGettingTodos: "",
+    errorTodo: "",
     submitState: "",
     deleteState: "",
 }
@@ -27,12 +27,14 @@ const todosSlice = createSlice({
         gettingTodosCompleted: (state) => {
             state.gettingTodosState = "completed";
         },
-        errorGettingTodos: (state) => {
-            state.errorWhenGettingTodos = "Error when getting todos";
+        errorRequestTodo: (state) => {
+            state.errorTodo = "Connection problems";
+            state.gettingTodosState = "";
+            state.submitState = "";
         },
         setTodos: (state, action: PayloadAction<Task[]>) => {
             state.todos = action.payload;
-            state.errorWhenGettingTodos = "";
+            state.errorTodo = "";
             state.gettingTodosState = "";
         },
         loading: (state) => {
@@ -46,11 +48,11 @@ const todosSlice = createSlice({
         },
         setGroups: (state, action: PayloadAction<Task[]>) => {
             state.todos = action.payload;
-            state.errorWhenGettingTodos = "";
+            state.errorTodo = "";
             state.gettingTodosState = "";
         },
     }
 });
 
-export const { gettingTodos, gettingTodosCompleted, errorGettingTodos, setTodos, loading, created, clean, setGroups } = todosSlice.actions;
+export const { gettingTodos, gettingTodosCompleted, errorRequestTodo, setTodos, loading, created, clean, setGroups } = todosSlice.actions;
 export default todosSlice.reducer;

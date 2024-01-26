@@ -6,3 +6,7 @@
     border-radius: 15px;
     overflow-y: auto;
 }
+
+.to-dos-container p {
+    text-align: center;
+}

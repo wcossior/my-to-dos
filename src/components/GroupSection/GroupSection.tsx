@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { gettingGroupsCompleted, selectGroup, showForm } from '../../redux/slices/group';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
-import { errorGettingGroups, setGroups, gettingGroups } from '../../redux/slices/group';
-import { errorGettingTodos, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
+import { errorRequestGroups, setGroups, gettingGroups } from '../../redux/slices/group';
+import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 import { Group } from '../../models/models';
 
 const GroupSection = () => {
     const arrayGroups = useSelector((state: RootState) => state.group.groups);
+    const error = useSelector((state: RootState) => state.group.errorGroups);
     const groupSelected = useSelector((state: RootState) => state.group.groupSelectedItem);
     const gettingState = useSelector((state: RootState) => state.group.gettingGroupsState);
 
@@ -27,8 +28,9 @@ const GroupSection = () => {
                 const groups = await getGroupsFromFirestore();
                 dispatch(setGroups(groups));
                 dispatch(gettingGroupsCompleted());
+                
             } catch (error) {
-                dispatch(errorGettingGroups());
+                dispatch(errorRequestGroups());
             }
         };
 
@@ -43,7 +45,7 @@ const GroupSection = () => {
             dispatch(setTodos(todos));
             dispatch(gettingTodosCompleted());
         } catch (error) {
-            dispatch(errorGettingTodos());
+            dispatch(errorRequestTodo());
         }
 
     }
@@ -72,7 +74,7 @@ const GroupSection = () => {
                         )))
                         :
                         (
-                            <p>The groups could not be obtained</p>
+                            <p>{error}</p>
                         )
 
             }

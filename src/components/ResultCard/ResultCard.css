@@ -9,7 +9,14 @@
     padding: 30px;
     max-height: 204px;
     height: 100%;
+}
+
+.success{
     background-color: #4CAF50;
+}
+
+.error{
+    background-color: #FE6053;
 }
 
 .result-card-container .check-icon{

@@ -33,12 +33,16 @@ const deleteModalSlice = createSlice({
         },
         deleted: (state) => {
             state.deletingState = "deleted";
+            state.errorWhenDeletingTodo = "";
+            state.idTodo = "";
         },
         cleanDeleteState: (state) => {
             state.deletingState = "";
+            state.errorWhenDeletingTodo = "";
         },
         errorDeletingTodo: (state) => {
-            state.errorWhenDeletingTodo = "Error when deleting todo";
+            state.errorWhenDeletingTodo = "Conneciton problems";
+            state.deletingState = "";
         },
     }
 });
