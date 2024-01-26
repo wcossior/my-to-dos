@@ -37,7 +37,6 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
     };
 
     const chooseType = () => {
-        console.log(type+errorMsg);
         
         switch (type) {
             case "groups":

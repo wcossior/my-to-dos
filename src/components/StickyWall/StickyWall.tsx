@@ -7,6 +7,7 @@ import { RootState } from "../../redux/store";
 export default function StickyWall() {
     const dispatch = useDispatch();
     const group = useSelector((state: RootState) => state.group.groupSelectedItem);
+    const groups = useSelector((state: RootState) => state.group.groups);
 
     const showForm = () => {
         dispatch(showFormToAddTodo());
@@ -16,7 +17,9 @@ export default function StickyWall() {
         <div className='stickywall'>
             <div className='title-wall'>
                 <h1 className='group-title-in-the-wall'>{!group.title ? "Choose a group" : group.title}</h1><h2>wall</h2>
-                <button className="btn btn-green" type="button" onClick={showForm}>Add to-do</button>
+                {groups.length > 0 && group.title !== "" &&
+                    <button className="btn btn-green" type="button" onClick={showForm}>Add to-do</button>
+                }
             </div>
             <TodoList></TodoList>
         </div>
