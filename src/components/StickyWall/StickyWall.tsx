@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import TodoList from "../TodosList/TodoList";
 import "./StickyWall.css";
-import { showFormToAddTodo } from "../../redux/slices/formAddTodo";
 import { RootState } from "../../redux/store";
+import { showAddTodo_form } from "../../redux/slices/todos";
 
 export default function StickyWall() {
     const dispatch = useDispatch();
@@ -10,7 +10,7 @@ export default function StickyWall() {
     const groups = useSelector((state: RootState) => state.group.groups);  
 
     const showForm = () => {
-        dispatch(showFormToAddTodo());
+        dispatch(showAddTodo_form());
     }
 
     return (

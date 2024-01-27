@@ -1,13 +1,14 @@
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import "./DeleteTodo.css";
-import { saveIdTodo, showModal } from '../../redux/slices/deleteModal';
+import { saveIdTodo } from '../../redux/slices/deleteModal';
 import { useDispatch } from 'react-redux';
+import { showDeleteTodo_form } from "../../redux/slices/todos";
 
 export default function DeleteTodo({ todoId }: { todoId: string }) {
     const dispatch = useDispatch();
 
     const showModalDelete = () => {
-        dispatch(showModal());
+        dispatch(showDeleteTodo_form());
         dispatch(saveIdTodo(todoId));
     }
 

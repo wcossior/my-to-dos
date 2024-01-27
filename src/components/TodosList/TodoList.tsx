@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Todo from "../Todo/Todo";
 import "./TodoList.css";
 import { useDispatch, useSelector } from "react-redux";
-import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from "../../redux/slices/todos";
+import { getting_todos, gettingTodos_completed, todos_set, whenGettingTodos_error } from "../../redux/slices/todos";
 import { getTodosFromFirstGroupFirestore } from "../../services/firebaseServices";
 import { RootState } from "../../redux/store";
 import { selectA_group } from "../../redux/slices/group";
@@ -12,20 +12,20 @@ export default function TodoList() {
     const dispatch = useDispatch();
 
     const arrayTodos = useSelector((state: RootState) => state.todos.todos);
-    const gettingState = useSelector((state: RootState) => state.todos.gettingTodosState)
+    const gettingState = useSelector((state: RootState) => state.todos.gettingTodos_state)
     const error = useSelector((state: RootState) => state.todos.errorTodo)
 
 
     useEffect(() => {
         const getTodos = async () => {
             try {
-                dispatch(gettingTodos());
+                dispatch(getting_todos());
                 const { todosData, firstGroup } = await getTodosFromFirstGroupFirestore();
-                dispatch(setTodos(todosData));
+                dispatch(todos_set(todosData));
                 dispatch(selectA_group(firstGroup));
-                dispatch(gettingTodosCompleted());
+                dispatch(gettingTodos_completed());
             } catch (error) {
-                dispatch(errorRequestTodo());
+                dispatch(whenGettingTodos_error());
             }
         };
 

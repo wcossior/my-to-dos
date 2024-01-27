@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { hideFormToAddTodo } from '../../redux/slices/formAddTodo';
-import { created, errorRequestTodo, loading } from '../../redux/slices/todos';
+import { created_todo, creating_todo, hideAddTodo_form, whenAddingTodo_error } from '../../redux/slices/todos';
 import { postTodoToFireStore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
 import Loading from '../Loading/Loading';
@@ -12,22 +11,22 @@ const FormAddTodo = () => {
     const dispatch = useDispatch();
 
     const [todoTitle, setTodoTitle] = useState("");
-    const submitState = useSelector((state: RootState) => state.todos.submitState);
+    const submitState = useSelector((state: RootState) => state.todos.adddingTodo_state);
     const groupSelected = useSelector((state: RootState) => state.group.group_selected);
-    const error = useSelector((state: RootState) => state.todos.errorTodo);
+    const errorWhenAddingTodo = useSelector((state: RootState) => state.todos.errorTodo);
 
     const closeForm = () => {
-        dispatch(hideFormToAddTodo());
+        dispatch(hideAddTodo_form());
     }
 
     const addTodo = async () => {
         try {
-            dispatch(loading());
+            dispatch(creating_todo());
             await postTodoToFireStore(todoTitle, groupSelected.id);
-            dispatch(created());
+            dispatch(created_todo());
             setTodoTitle("");
         } catch (error) {
-            dispatch(errorRequestTodo());
+            dispatch(whenAddingTodo_error());
         }
     }
 
@@ -38,8 +37,8 @@ const FormAddTodo = () => {
             {submitState === "loading" ?
                 <Loading></Loading>
                 :
-                submitState === "created" || error ?
-                    <ResultCard errorMsg={error} msg='Todo created successfully' type="todos"></ResultCard>
+                submitState === "created" || errorWhenAddingTodo ?
+                    <ResultCard errorMsg={errorWhenAddingTodo} msg='Todo created successfully' type="todos"></ResultCard>
                     :
                     <div className="form">
                         <p className='title-form'>ADDING A TODO</p>

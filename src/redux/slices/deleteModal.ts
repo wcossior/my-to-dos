@@ -47,5 +47,5 @@ const deleteModalSlice = createSlice({
     }
 });
 
-export const { showModal, hideModal, saveIdTodo, loading, deleted, cleanDeleteState, errorDeletingTodo } = deleteModalSlice.actions;
+export const {  saveIdTodo, loading, deleted, cleanDeleteState, errorDeletingTodo } = deleteModalSlice.actions;
 export default deleteModalSlice.reducer;

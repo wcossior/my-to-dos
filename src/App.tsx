@@ -10,9 +10,9 @@ import FormAddTodo from './components/FormAddTodo/FormAddTodo';
 import FormEditTodo from './components/FormEditTodo/FormEditTodo';
 
 function App() {
-  const visible = useSelector((state: RootState) => state.modalDelete.modalVisible);
+  const visible = useSelector((state: RootState) => state.todos.deleteTodo_form);
   const addGroupForm = useSelector((state: RootState) => state.group.addGroup_form);
-  const visibleFormAddTodo = useSelector((state: RootState) => state.formAddTodo.formVisible);
+  const visibleFormAddTodo = useSelector((state: RootState) => state.todos.addTodo_form);
   const visibleFormEditTodo = useSelector((state: RootState) => state.formEditTodo.formVisible);
 
   return (

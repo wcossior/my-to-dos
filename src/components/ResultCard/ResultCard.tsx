@@ -2,8 +2,8 @@ import './ResultCard.css';
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
-import { clean as cleanTodos, errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
-import { cleanDeleteState, hideModal } from '../../redux/slices/deleteModal';
+import { addingTodoState_clean, getting_todos, gettingTodos_completed, hideDeleteTodo_form, todos_set, whenGettingTodos_error } from '../../redux/slices/todos';
+import { cleanDeleteState } from '../../redux/slices/deleteModal';
 import { RootState } from '../../redux/store';
 import { addingGroupState_clean, gettingGroups_completed, getting_groups, groups_set, whenGettingGroups_error } from '../../redux/slices/group';
 
@@ -26,12 +26,12 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
 
     const getTodos = async () => {
         try {
-            dispatch(gettingTodos());
+            dispatch(getting_todos());
             const todos = await getTodosFromFirestore(groupSelected.id);
-            dispatch(setTodos(todos));
-            dispatch(gettingTodosCompleted());
+            dispatch(todos_set(todos));
+            dispatch(gettingTodos_completed());
         } catch (error) {
-            dispatch(errorRequestTodo());
+            dispatch(whenGettingTodos_error());
         }
     };
 
@@ -45,9 +45,9 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
 
             case "todos":
                 getTodos();
-                dispatch(cleanTodos());
+                dispatch(addingTodoState_clean());
                 dispatch(cleanDeleteState());
-                dispatch(hideModal());
+                dispatch(hideDeleteTodo_form());
                 break;
         }
     }

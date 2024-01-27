@@ -4,7 +4,7 @@ import "./GroupSection.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
-import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
+import { getting_todos, gettingTodos_completed, todos_set, whenGettingTodos_error } from '../../redux/slices/todos';
 import { Group } from '../../models/models';
 import { gettingGroups_completed, getting_groups, groups_set, selectA_group, showAddGroup_form, whenGettingGroups_error } from '../../redux/slices/group';
 
@@ -39,12 +39,12 @@ const GroupSection = () => {
     const selectAGroup = async (group: Group) => {
         try {
             dispatch(selectA_group(group));
-            dispatch(gettingTodos());
+            dispatch(getting_todos());
             const todos = await getTodosFromFirestore(group.id);
-            dispatch(setTodos(todos));
-            dispatch(gettingTodosCompleted());
+            dispatch(todos_set(todos));
+            dispatch(gettingTodos_completed());
         } catch (error) {
-            dispatch(errorRequestTodo());
+            dispatch(whenGettingTodos_error());
         }
 
     }

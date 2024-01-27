@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import "./CheckTodo.css";
 import { checkTodoToFireStore, getTodosFromFirestore } from '../../services/firebaseServices';
-import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
+import { getting_todos, gettingTodos_completed, todos_set, whenCheckingTodo_error, whenGettingTodos_error } from '../../redux/slices/todos';
 import { useDispatch, useSelector } from 'react-redux';
 import { Task } from '../../models/models';
 import { RootState } from '../../redux/store';
@@ -16,18 +16,18 @@ export default function CheckTodo({ todo }: { todo: Task }) {
             await checkTodoToFireStore(todo.id, !todo.todoCompleted);
             getTodos();
         } catch (error) {
-            dispatch(errorRequestTodo());
+            dispatch(whenCheckingTodo_error());
         }
     }
 
     const getTodos = async () => {
         try {
-            dispatch(gettingTodos());
+            dispatch(getting_todos());
             const todos = await getTodosFromFirestore(groupSelected.id);
-            dispatch(setTodos(todos));
-            dispatch(gettingTodosCompleted());
+            dispatch(todos_set(todos));
+            dispatch(gettingTodos_completed());
         } catch (error) {
-            dispatch(errorRequestTodo());
+            dispatch(whenGettingTodos_error());
         }
     };
 
