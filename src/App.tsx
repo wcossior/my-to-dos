@@ -11,7 +11,7 @@ import FormEditTodo from './components/FormEditTodo/FormEditTodo';
 
 function App() {
   const visible = useSelector((state: RootState) => state.modalDelete.modalVisible);
-  const addGroupForm = useSelector((state: RootState) => state.group1.addGroup_form);
+  const addGroupForm = useSelector((state: RootState) => state.group.addGroup_form);
   const visibleFormAddTodo = useSelector((state: RootState) => state.formAddTodo.formVisible);
   const visibleFormEditTodo = useSelector((state: RootState) => state.formEditTodo.formVisible);
 

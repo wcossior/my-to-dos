@@ -1,17 +1,15 @@
-import React from 'react';
 import './ResultCard.css';
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { clean as cleanGroups, errorRequestGroups, gettingGroups, gettingGroupsCompleted, setGroups } from '../../redux/slices/group';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { clean as cleanTodos, errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 import { cleanDeleteState, hideModal } from '../../redux/slices/deleteModal';
 import { RootState } from '../../redux/store';
-import { addingGroupState_clean, gettingGroups_completed, getting_groups, groups_set } from '../../redux/slices/group1';
+import { addingGroupState_clean, gettingGroups_completed, getting_groups, groups_set, whenGettingGroups_error } from '../../redux/slices/group';
 
-const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorMsg: string }) => {
+const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorMsg: string | null }) => {
 
-    const groupSelected = useSelector((state: RootState) => state.group1.group_selected);
+    const groupSelected = useSelector((state: RootState) => state.group.group_selected);
 
     const dispatch = useDispatch();
 
@@ -22,7 +20,7 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
             dispatch(groups_set(groups));
             dispatch(gettingGroups_completed());
         } catch (error) {
-            dispatch(errorRequestGroups());
+            dispatch(whenGettingGroups_error());
         }
     };
 
@@ -38,7 +36,7 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
     };
 
     const chooseType = () => {
-        
+
         switch (type) {
             case "groups":
                 getGroups();

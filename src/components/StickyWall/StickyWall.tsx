@@ -6,8 +6,8 @@ import { RootState } from "../../redux/store";
 
 export default function StickyWall() {
     const dispatch = useDispatch();
-    const group = useSelector((state: RootState) => state.group1.group_selected);
-    const groups = useSelector((state: RootState) => state.group1.groups);  
+    const group = useSelector((state: RootState) => state.group.group_selected);
+    const groups = useSelector((state: RootState) => state.group.groups);  
 
     const showForm = () => {
         dispatch(showFormToAddTodo());

@@ -1,67 +1,96 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { Group } from "../../models/models";
 
 interface initialGroupState {
-    formVisible: boolean;
-    submitState: string;
+    addGroup_form: boolean;
+    addingGroup_state: string;
     groups: Group[];
-    errorGroups: string;
-    gettingGroupsState: string;
-    groupSelectedItem: Group;
+    gettingGroups_state: string;
+    group_selected: Group;
+    gettingGroups_error: null | string;
+    addingGroup_error: null | string;
+    deletingGroup_error: null | string;
 }
 
 const initialState: initialGroupState = {
-    formVisible: false,
-    submitState: "",
+    addGroup_form: false,
+    addingGroup_state: "",
     groups: [],
-    errorGroups: "",
-    gettingGroupsState: "",
-    groupSelectedItem: {
+    gettingGroups_state: "",
+    group_selected: {
         id: "",
         title: "",
     },
+    gettingGroups_error: null,
+    addingGroup_error: null,
+    deletingGroup_error: null,
 }
 
+
 const groupSlice = createSlice({
-    name: 'group',
+    name: "group",
     initialState: initialState,
     reducers: {
-        showForm: (state) => {
-            state.formVisible = true;
+        showAddGroup_form: (state) => {
+            state.addGroup_form = true;
         },
-        hideForm: (state) => {
-            state.formVisible = false;
+        hideAddGroup_form: (state) => {
+            state.addGroup_form = false;
         },
-        loading: (state) => {
-            state.submitState = "loading";
+        creating_group: (state) => {
+            state.addingGroup_state = "creating";
         },
-        created: (state) => {
-            state.submitState = "created";
+        created_group: (state) => {
+            state.addingGroup_state = "created";
+            state.addingGroup_error = null
         },
-        clean: (state) => {
-            state.submitState = "";
+        addingGroupState_clean: (state) => {
+            state.addingGroup_state = "";
+            state.addingGroup_error = null;
+            state.gettingGroups_error = null;
+            state.deletingGroup_error = null;
         },
-        setGroups: (state, action: PayloadAction<Group[]>) => {
+        getting_groups: (state) => {
+            state.gettingGroups_state = "getting";
+        },
+        gettingGroups_completed: (state) => {
+            state.gettingGroups_state = "completed";
+        },
+        groups_set: (state, action: PayloadAction<Group[]>) => {
             state.groups = action.payload;
-            state.errorGroups = "";
-            state.gettingGroupsState = "";
+            state.gettingGroups_error = null;
+            state.gettingGroups_state = "";
         },
-        errorRequestGroups: (state) => {
-            state.errorGroups = "Connection problems";
-            state.gettingGroupsState = "";
-            state.submitState = "";
+        selectA_group: (state, action: PayloadAction<Group>) => {
+            state.group_selected = action.payload;
         },
-        gettingGroups: (state) => {
-            state.gettingGroupsState = "getting";
+        whenGettingGroups_error: (state) => {
+            state.gettingGroups_error = "Error when getting groups";
+            state.gettingGroups_state = "";
         },
-        gettingGroupsCompleted: (state) => {
-            state.gettingGroupsState = "completed";
+        whenAddingGroup_error: (state) => {
+            state.addingGroup_error = "Error when adding a group";
+            state.addingGroup_state = "";
         },
-        selectGroup: (state, action: PayloadAction<Group>) => {
-            state.groupSelectedItem = action.payload;
+        whenDeletingGroup_error: (state) => {
+            state.deletingGroup_error = "Error when deleting a group";
         },
     }
 });
 
-export const { showForm, hideForm, loading, created, clean, setGroups, errorRequestGroups, gettingGroups, gettingGroupsCompleted, selectGroup } = groupSlice.actions;
+export const {
+    showAddGroup_form,
+    hideAddGroup_form,
+    creating_group,
+    created_group,
+    addingGroupState_clean,
+    getting_groups,
+    gettingGroups_completed,
+    groups_set,
+    selectA_group,
+    whenGettingGroups_error,
+    whenAddingGroup_error,
+    whenDeletingGroup_error,
+} = groupSlice.actions;
+
 export default groupSlice.reducer;

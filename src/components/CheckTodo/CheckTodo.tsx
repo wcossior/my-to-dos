@@ -8,7 +8,7 @@ import { Task } from '../../models/models';
 import { RootState } from '../../redux/store';
 
 export default function CheckTodo({ todo }: { todo: Task }) {
-    const groupSelected = useSelector((state: RootState) => state.group1.group_selected);
+    const groupSelected = useSelector((state: RootState) => state.group.group_selected);
     const dispatch = useDispatch();
 
     async function todoCompleted() {

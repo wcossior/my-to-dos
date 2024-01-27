@@ -1,19 +1,18 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import addIcon from "../../assets/add.svg";
 import "./GroupSection.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
-import { errorRequestGroups, setGroups, gettingGroups } from '../../redux/slices/group';
 import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 import { Group } from '../../models/models';
-import { gettingGroups_completed, getting_groups, groups_set, selectA_group, showAddGroup_form } from '../../redux/slices/group1';
+import { gettingGroups_completed, getting_groups, groups_set, selectA_group, showAddGroup_form, whenGettingGroups_error } from '../../redux/slices/group';
 
 const GroupSection = () => {
-    const arrayGroups = useSelector((state: RootState) => state.group1.groups);
-    const error = useSelector((state: RootState) => state.group.errorGroups);
-    const groupSelected = useSelector((state: RootState) => state.group1.group_selected);
-    const gettingState = useSelector((state: RootState) => state.group1.gettingGroups_state);
+    const arrayGroups = useSelector((state: RootState) => state.group.groups);
+    const errorWhenGettingGroups = useSelector((state: RootState) => state.group.gettingGroups_error);
+    const groupSelected = useSelector((state: RootState) => state.group.group_selected);
+    const gettingState = useSelector((state: RootState) => state.group.gettingGroups_state);
 
     const dispatch = useDispatch();
 
@@ -30,7 +29,7 @@ const GroupSection = () => {
                 dispatch(gettingGroups_completed());
                 
             } catch (error) {
-                dispatch(errorRequestGroups());
+                dispatch(whenGettingGroups_error());
             }
         };
 
@@ -74,7 +73,7 @@ const GroupSection = () => {
                         )))
                         :
                         (
-                            <p>{error}</p>
+                            <p>{errorWhenGettingGroups}</p>
                         )
 
             }

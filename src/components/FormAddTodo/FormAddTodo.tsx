@@ -13,7 +13,7 @@ const FormAddTodo = () => {
 
     const [todoTitle, setTodoTitle] = useState("");
     const submitState = useSelector((state: RootState) => state.todos.submitState);
-    const groupSelected = useSelector((state: RootState) => state.group1.group_selected);
+    const groupSelected = useSelector((state: RootState) => state.group.group_selected);
     const error = useSelector((state: RootState) => state.todos.errorTodo);
 
     const closeForm = () => {

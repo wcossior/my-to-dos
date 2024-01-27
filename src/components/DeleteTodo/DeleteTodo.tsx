@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import "./DeleteTodo.css";
 import { saveIdTodo, showModal } from '../../redux/slices/deleteModal';

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from "../../redux/slices/todos";
 import { getTodosFromFirstGroupFirestore } from "../../services/firebaseServices";
 import { RootState } from "../../redux/store";
-import { selectA_group } from "../../redux/slices/group1";
+import { selectA_group } from "../../redux/slices/group";
 
 export default function TodoList() {
 
