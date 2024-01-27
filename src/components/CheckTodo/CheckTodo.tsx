@@ -8,7 +8,7 @@ import { Task } from '../../models/models';
 import { RootState } from '../../redux/store';
 
 export default function CheckTodo({ todo }: { todo: Task }) {
-    const fistGroup = useSelector((state: RootState) => state.group.groupSelectedItem);
+    const groupSelected = useSelector((state: RootState) => state.group1.group_selected);
     const dispatch = useDispatch();
 
     async function todoCompleted() {
@@ -23,7 +23,7 @@ export default function CheckTodo({ todo }: { todo: Task }) {
     const getTodos = async () => {
         try {
             dispatch(gettingTodos());
-            const todos = await getTodosFromFirestore(fistGroup.id);
+            const todos = await getTodosFromFirestore(groupSelected.id);
             dispatch(setTodos(todos));
             dispatch(gettingTodosCompleted());
         } catch (error) {

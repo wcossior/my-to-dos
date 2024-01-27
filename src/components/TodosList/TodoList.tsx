@@ -3,9 +3,9 @@ import Todo from "../Todo/Todo";
 import "./TodoList.css";
 import { useDispatch, useSelector } from "react-redux";
 import { errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from "../../redux/slices/todos";
-import { getTodosFromFirestore, getTodosFromFirstGroupFirestore } from "../../services/firebaseServices";
+import { getTodosFromFirstGroupFirestore } from "../../services/firebaseServices";
 import { RootState } from "../../redux/store";
-import { selectGroup } from "../../redux/slices/group";
+import { selectA_group } from "../../redux/slices/group1";
 
 export default function TodoList() {
 
@@ -22,7 +22,7 @@ export default function TodoList() {
                 dispatch(gettingTodos());
                 const { todosData, firstGroup } = await getTodosFromFirstGroupFirestore();
                 dispatch(setTodos(todosData));
-                dispatch(selectGroup(firstGroup));
+                dispatch(selectA_group(firstGroup));
                 dispatch(gettingTodosCompleted());
             } catch (error) {
                 dispatch(errorRequestTodo());

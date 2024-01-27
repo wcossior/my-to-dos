@@ -7,20 +7,20 @@ import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/fi
 import { clean as cleanTodos, errorRequestTodo, gettingTodos, gettingTodosCompleted, setTodos } from '../../redux/slices/todos';
 import { cleanDeleteState, hideModal } from '../../redux/slices/deleteModal';
 import { RootState } from '../../redux/store';
-import { addingGroupState_clean } from '../../redux/slices/group1';
+import { addingGroupState_clean, gettingGroups_completed, getting_groups, groups_set } from '../../redux/slices/group1';
 
 const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorMsg: string }) => {
 
-    const fistGroup = useSelector((state: RootState) => state.group.groupSelectedItem);
+    const groupSelected = useSelector((state: RootState) => state.group1.group_selected);
 
     const dispatch = useDispatch();
 
     const getGroups = async () => {
         try {
-            dispatch(gettingGroups());
+            dispatch(getting_groups());
             const groups = await getGroupsFromFirestore();
-            dispatch(setGroups(groups));
-            dispatch(gettingGroupsCompleted());
+            dispatch(groups_set(groups));
+            dispatch(gettingGroups_completed());
         } catch (error) {
             dispatch(errorRequestGroups());
         }
@@ -29,7 +29,7 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
     const getTodos = async () => {
         try {
             dispatch(gettingTodos());
-            const todos = await getTodosFromFirestore(fistGroup.id);
+            const todos = await getTodosFromFirestore(groupSelected.id);
             dispatch(setTodos(todos));
             dispatch(gettingTodosCompleted());
         } catch (error) {
