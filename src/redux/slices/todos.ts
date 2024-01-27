@@ -2,13 +2,14 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Task } from "../../models/models";
 
 interface initialTodosState {
+    forDeleting_idTodo: string;
     addTodo_form: boolean;
     deleteTodo_form: boolean;
+    editTodo_form: boolean;
     adddingTodo_state: string;
     todos: Task[];
     gettingTodos_state: string;
     deletingTodo_state: string;
-    errorTodo: string;
     gettingTodos_error: null | string;
     checkingTodo_error: null | string;
     addingTodo_error: null | string;
@@ -16,13 +17,14 @@ interface initialTodosState {
 }
 
 const initialState: initialTodosState = {
+    forDeleting_idTodo: "",
     addTodo_form: false,
     deleteTodo_form: false,
+    editTodo_form: false,
     adddingTodo_state: "",
     todos: [],
     gettingTodos_state: "",
     deletingTodo_state: "",
-    errorTodo: "",
     gettingTodos_error: null,
     checkingTodo_error: null,
     addingTodo_error: null,
@@ -45,14 +47,28 @@ const todosSlice = createSlice({
         hideDeleteTodo_form: (state) => {
             state.deleteTodo_form = false;
         },
+        showEditTodo_form: (state) =>{
+            state.editTodo_form = true;
+        },
+        hideEditTodo_form: (state) =>{
+            state.editTodo_form = false;
+        },
         creating_todo: (state) => {
             state.adddingTodo_state = "loading";
         },
         created_todo: (state) => {
             state.adddingTodo_state = "created";
         },
-        addingTodoState_clean: (state) => {
+        deleting_todo: (state) => {
+            state.deletingTodo_state = "loading";
+        },
+        deleted_todo: (state) => {
+            state.deletingTodo_state = "deleted";
+            state.forDeleting_idTodo = "";
+        },
+        todoState_clean: (state) => {
             state.adddingTodo_state = "";
+            state.deletingTodo_state = "";
             state.addingTodo_error = null;
             state.gettingTodos_error = null;
             state.deletingTodo_error = null;
@@ -66,17 +82,11 @@ const todosSlice = createSlice({
         },
         todos_set: (state, action: PayloadAction<Task[]>) => {
             state.todos = action.payload;
-            state.errorTodo = "";
             state.gettingTodos_state = "";
         },
-        errorRequestTodo: (state) => {
-            state.errorTodo = "Connection problems";
-            state.gettingTodos_state = "";
-            state.adddingTodo_state = "";
+        idTodoForDeleleting_set: (state, action: PayloadAction<string>) => {
+            state.forDeleting_idTodo = action.payload;
         },
-
-
-
         whenGettingTodos_error: (state) => {
             state.gettingTodos_error = "Error when getting todos";
             state.gettingTodos_state = "";
@@ -98,9 +108,13 @@ export const {
     hideAddTodo_form,
     showDeleteTodo_form,
     hideDeleteTodo_form,
+    showEditTodo_form,
+    hideEditTodo_form,
     creating_todo,
     created_todo,
-    addingTodoState_clean,
+    deleting_todo,
+    deleted_todo,
+    todoState_clean,
     getting_todos,
     gettingTodos_completed,
     todos_set,
@@ -108,5 +122,6 @@ export const {
     whenAddingTodo_error,
     whenDeletingTodo_error,
     whenCheckingTodo_error,
+    idTodoForDeleleting_set,
 } = todosSlice.actions;
 export default todosSlice.reducer;

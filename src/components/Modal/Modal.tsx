@@ -1,18 +1,17 @@
 import React from 'react';
 import "./Modal.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { deleted, errorDeletingTodo, loading } from '../../redux/slices/deleteModal';
-import { deleteTodoFireStore, getTodosFromFirestore } from '../../services/firebaseServices';
+import { deleteTodoFireStore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
-import { getting_todos, gettingTodos_completed, hideDeleteTodo_form, todos_set, whenDeletingTodo_error } from '../../redux/slices/todos';
+import { deleted_todo, deleting_todo, hideDeleteTodo_form, whenDeletingTodo_error } from '../../redux/slices/todos';
 import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
 
 const Modal = () => {
     const dispatch = useDispatch();
-    const idTodo = useSelector((state: RootState) => state.modalDelete.idTodo);
-    const deleteState = useSelector((state: RootState) => state.modalDelete.deletingState);
-    const error = useSelector((state: RootState) => state.modalDelete.errorWhenDeletingTodo);
+    const idTodo = useSelector((state: RootState) => state.todos.forDeleting_idTodo);
+    const deleteState = useSelector((state: RootState) => state.todos.deletingTodo_state);
+    const error = useSelector((state: RootState) => state.todos.deletingTodo_error);
 
     const closeModalDelete = () => {
         dispatch(hideDeleteTodo_form());
@@ -20,9 +19,9 @@ const Modal = () => {
 
     const deleteTodo = async () => {
         try {
-            dispatch(loading());
+            dispatch(deleting_todo());
             await deleteTodoFireStore(idTodo);
-            dispatch(deleted());
+            dispatch(deleted_todo());
         } catch (error) {
             dispatch(whenDeletingTodo_error());
         }

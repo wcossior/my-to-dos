@@ -2,10 +2,9 @@ import './ResultCard.css';
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroupsFromFirestore, getTodosFromFirestore } from '../../services/firebaseServices';
-import { addingTodoState_clean, getting_todos, gettingTodos_completed, hideDeleteTodo_form, todos_set, whenGettingTodos_error } from '../../redux/slices/todos';
-import { cleanDeleteState } from '../../redux/slices/deleteModal';
+import { todoState_clean, getting_todos, gettingTodos_completed, hideDeleteTodo_form, todos_set, whenGettingTodos_error } from '../../redux/slices/todos';
 import { RootState } from '../../redux/store';
-import { addingGroupState_clean, gettingGroups_completed, getting_groups, groups_set, whenGettingGroups_error } from '../../redux/slices/group';
+import { groupState_clean, gettingGroups_completed, getting_groups, groups_set, whenGettingGroups_error } from '../../redux/slices/group';
 
 const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorMsg: string | null }) => {
 
@@ -40,13 +39,12 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
         switch (type) {
             case "groups":
                 getGroups();
-                dispatch(addingGroupState_clean());
+                dispatch(groupState_clean());
                 break;
 
             case "todos":
                 getTodos();
-                dispatch(addingTodoState_clean());
-                dispatch(cleanDeleteState());
+                dispatch(todoState_clean());
                 dispatch(hideDeleteTodo_form());
                 break;
         }

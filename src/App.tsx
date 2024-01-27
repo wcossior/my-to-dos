@@ -10,25 +10,25 @@ import FormAddTodo from './components/FormAddTodo/FormAddTodo';
 import FormEditTodo from './components/FormEditTodo/FormEditTodo';
 
 function App() {
-  const visible = useSelector((state: RootState) => state.todos.deleteTodo_form);
+  const deleteTodoForm = useSelector((state: RootState) => state.todos.deleteTodo_form);
   const addGroupForm = useSelector((state: RootState) => state.group.addGroup_form);
-  const visibleFormAddTodo = useSelector((state: RootState) => state.todos.addTodo_form);
-  const visibleFormEditTodo = useSelector((state: RootState) => state.formEditTodo.formVisible);
+  const addTodoForm = useSelector((state: RootState) => state.todos.addTodo_form);
+  const editTodoForm = useSelector((state: RootState) => state.todos.editTodo_form);
 
   return (
     <div className="App">
       <Sidebar></Sidebar>
       <StickyWall></StickyWall>
-      {visible &&
+      {deleteTodoForm &&
         <Modal></Modal>
       }
       {addGroupForm &&
         <FormAddGroup></FormAddGroup>
       }
-      {visibleFormAddTodo &&
+      {addTodoForm &&
         <FormAddTodo></FormAddTodo>
       }
-      {visibleFormEditTodo &&
+      {editTodoForm &&
         <FormEditTodo></FormEditTodo>
       }
     </div>

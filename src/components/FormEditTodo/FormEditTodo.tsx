@@ -1,13 +1,13 @@
 import React from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch } from 'react-redux';
-import { hideFormEditTodo } from '../../redux/slices/formEditTodo';
+import { hideEditTodo_form } from '../../redux/slices/todos';
 
 const FormEditTodo = () => {
     const dispatch = useDispatch();
 
     const closeForm = () => {
-        dispatch(hideFormEditTodo());
+        dispatch(hideEditTodo_form());
     }
 
     return (

@@ -13,7 +13,7 @@ export default function TodoList() {
 
     const arrayTodos = useSelector((state: RootState) => state.todos.todos);
     const gettingState = useSelector((state: RootState) => state.todos.gettingTodos_state)
-    const error = useSelector((state: RootState) => state.todos.errorTodo)
+    const errorWhenGettingTodos = useSelector((state: RootState) => state.todos.gettingTodos_error)
 
 
     useEffect(() => {
@@ -52,7 +52,7 @@ export default function TodoList() {
                     )
                         :
                         (
-                            <p>{error}</p>
+                            <p>{errorWhenGettingTodos}</p>
                         )
 
             }

@@ -44,7 +44,7 @@ const groupSlice = createSlice({
             state.addingGroup_state = "created";
             state.addingGroup_error = null
         },
-        addingGroupState_clean: (state) => {
+        groupState_clean: (state) => {
             state.addingGroup_state = "";
             state.addingGroup_error = null;
             state.gettingGroups_error = null;
@@ -83,7 +83,7 @@ export const {
     hideAddGroup_form,
     creating_group,
     created_group,
-    addingGroupState_clean,
+    groupState_clean,
     getting_groups,
     gettingGroups_completed,
     groups_set,
