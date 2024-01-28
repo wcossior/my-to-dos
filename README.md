@@ -2,6 +2,8 @@
 
 My-to-dos App is a simple task management application where users can create groups and organize tasks within those groups. The application utilizes Firebase Firestore for data storage and management, and Redux for state management.
 
+You can check it out: [HERE](https://my-to-dos-wil.vercel.app/)
+
 ## Features
 
 - **Create Groups:** Users can create new groups to categorize their tasks.
