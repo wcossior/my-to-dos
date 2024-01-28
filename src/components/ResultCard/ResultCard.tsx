@@ -1,7 +1,7 @@
 import './ResultCard.css';
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import { useDispatch } from 'react-redux';
-import { todoState_clean, hideDeleteTodo_form } from '../../redux/slices/todos';
+import { todoState_clean, hideDeleteTodo_form, hideEditTodo_form } from '../../redux/slices/todos';
 import { groupState_clean } from '../../redux/slices/group';
 
 const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorMsg: string | null }) => {
@@ -18,6 +18,7 @@ const ResultCard = ({ msg, type, errorMsg }: { msg: string, type: string, errorM
             case "todos":
                 dispatch(todoState_clean());
                 dispatch(hideDeleteTodo_form());
+                dispatch(hideEditTodo_form());
                 break;
         }
     }

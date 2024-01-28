@@ -1,7 +1,7 @@
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import "./CheckTodo.css";
-import { checkTodoToFireStore } from '../../services/firebaseServices';
-import { todosOrderBy_NoCompleted, uptade_todo, whenCheckingTodo_error } from '../../redux/slices/todos';
+import { editTodoToFireStore } from '../../services/firebaseServices';
+import { todosOrderBy_NoCompleted, edit_todo, whenCheckingTodo_error } from '../../redux/slices/todos';
 import { useDispatch, useSelector } from 'react-redux';
 import { Task } from '../../models/models';
 import { RootState } from '../../redux/store';
@@ -17,9 +17,9 @@ export default function CheckTodo({ todo }: { todo: Task }) {
                     ...todo,
                     todoCompleted: !todo.todoCompleted
                 };
-                dispatch(uptade_todo(newTodo));
+                dispatch(edit_todo(newTodo));
                 dispatch(todosOrderBy_NoCompleted());
-                await checkTodoToFireStore(newTodo);
+                await editTodoToFireStore(newTodo);
             } else {
                 dispatch(whenCheckingTodo_error());
             }

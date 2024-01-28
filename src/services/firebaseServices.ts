@@ -65,11 +65,11 @@ export const postTodoToFireStore = async (todo: Task) => {
     }
 }
 
-export const checkTodoToFireStore = async (todo: Task) => {
+export const editTodoToFireStore = async (todo: Task) => {
     try {
         const todosCollection = collection(db, 'todos');
         const todoDoc = doc(todosCollection, todo.customId);
-        const updatedTodo = { todoCompleted: todo.todoCompleted };
+        const updatedTodo = { title: todo.title, todoCompleted: todo.todoCompleted };
         await updateDoc(todoDoc, updatedTodo);
     } catch (error) {
         console.error('Error when updating check todo:', error);

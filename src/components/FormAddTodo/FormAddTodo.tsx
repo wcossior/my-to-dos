@@ -56,7 +56,7 @@ const FormAddTodo = () => {
                     </div>
                     <label>Add a todo to your group: </label>
                     <input type="text" value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} disabled={submitState !== ""} />
-                    <button className={"btn btn-green " + submitState} type="submit" onClick={addTodo} disabled={!todoTitle || submitState === "loading"}>Create</button>
+                    <button className={"btn btn-green " + submitState} type="submit" onClick={addTodo} disabled={!todoTitle}>Create</button>
                 </div>
             }
 

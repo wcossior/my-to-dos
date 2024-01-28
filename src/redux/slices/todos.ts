@@ -7,6 +7,8 @@ interface initialTodosState {
     deleteTodo_form: boolean;
     editTodo_form: boolean;
     adddingTodo_state: string;
+    editingTodo_state: string;
+    todo_forEdit: Task | null;
     todos: Task[];
     todosFrom_group: Task[];
     gettingTodos_state: string;
@@ -15,6 +17,7 @@ interface initialTodosState {
     checkingTodo_error: null | string;
     addingTodo_error: null | string;
     deletingTodo_error: null | string;
+    editingTodo_error: null | string;
 }
 
 const initialState: initialTodosState = {
@@ -23,6 +26,8 @@ const initialState: initialTodosState = {
     deleteTodo_form: false,
     editTodo_form: false,
     adddingTodo_state: "",
+    editingTodo_state: "",
+    todo_forEdit: null,
     todos: [],
     todosFrom_group: [],
     gettingTodos_state: "",
@@ -31,6 +36,7 @@ const initialState: initialTodosState = {
     checkingTodo_error: null,
     addingTodo_error: null,
     deletingTodo_error: null,
+    editingTodo_error: null,
 }
 
 const todosSlice = createSlice({
@@ -58,17 +64,25 @@ const todosSlice = createSlice({
         created_todo: (state) => {
             state.adddingTodo_state = "created";
         },
+        edited_todo: (state) => {
+            state.editingTodo_state = "edited";
+        },
         deleted_todo: (state) => {
             state.deletingTodo_state = "deleted";
             state.forDeleting_idTodo = "";
         },
+        setTodo_forEdit: (state, action: PayloadAction<Task>) => {
+            state.todo_forEdit = action.payload;
+        },
         todoState_clean: (state) => {
             state.adddingTodo_state = "";
             state.deletingTodo_state = "";
+            state.editingTodo_state = "";
             state.addingTodo_error = null;
             state.gettingTodos_error = null;
             state.deletingTodo_error = null;
             state.checkingTodo_error = null;
+            state.editingTodo_error = null;
         },
         getting_todos: (state) => {
             state.gettingTodos_state = "getting";
@@ -80,14 +94,11 @@ const todosSlice = createSlice({
             state.todos = action.payload;
             state.gettingTodos_state = "";
         },
-        setTodos_fromGroup: (state, action: PayloadAction<Task[]>) => {
-            state.todosFrom_group = action.payload;
-        },
         add_todo: (state, action: PayloadAction<Task>) => {
             state.todosFrom_group.push(action.payload);
             state.todos.push(action.payload);
         },
-        uptade_todo: (state, action: PayloadAction<Task>) => {
+        edit_todo: (state, action: PayloadAction<Task>) => {
             const updatedTodo = action.payload;
             state.todosFrom_group = state.todosFrom_group.map(todo =>
                 todo.customId === updatedTodo.customId ? updatedTodo : todo
@@ -127,6 +138,9 @@ const todosSlice = createSlice({
         whenDeletingTodo_error: (state) => {
             state.deletingTodo_error = "Error when deleting a todo";
         },
+        whenEditingTodo_error: (state) => {
+            state.editingTodo_error = "Error when editing a todo";
+        },
     }
 });
 
@@ -139,12 +153,13 @@ export const {
     hideEditTodo_form,
     created_todo,
     deleted_todo,
+    setTodo_forEdit,
     todoState_clean,
     getting_todos,
     gettingTodos_completed,
     set_todos,
     add_todo,
-    uptade_todo,
+    edit_todo,
     delete_todo,
     todosOrderBy_NoCompleted,
     getTodosfrom_group,
@@ -152,6 +167,8 @@ export const {
     whenAddingTodo_error,
     whenDeletingTodo_error,
     whenCheckingTodo_error,
+    whenEditingTodo_error,
+    edited_todo,
     idTodoForDeleleting_set,
 } = todosSlice.actions;
 export default todosSlice.reducer;
