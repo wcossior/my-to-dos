@@ -2,7 +2,7 @@ import addIcon from "../../assets/add.svg";
 import "./GroupSection.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { gettingTodos_completed, getTodosfrom_group, whenGettingTodos_error } from '../../redux/slices/todos';
+import { gettingTodos_completed, getTodosfrom_group, todosOrderBy_NoCompleted, whenGettingTodos_error } from '../../redux/slices/todos';
 import { Group } from '../../models/models';
 import { selectA_group, showAddGroup_form } from '../../redux/slices/group';
 
@@ -21,6 +21,7 @@ const GroupSection = () => {
     const selectAGroup = async (group: Group) => {
         dispatch(selectA_group(group));
         dispatch(getTodosfrom_group(group.customId));
+        dispatch(todosOrderBy_NoCompleted());
         dispatch(gettingTodos_completed());
         dispatch(whenGettingTodos_error());
     }

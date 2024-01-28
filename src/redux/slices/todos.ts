@@ -55,14 +55,8 @@ const todosSlice = createSlice({
         hideEditTodo_form: (state) => {
             state.editTodo_form = false;
         },
-        creating_todo: (state) => {
-            state.adddingTodo_state = "loading";
-        },
         created_todo: (state) => {
             state.adddingTodo_state = "created";
-        },
-        deleting_todo: (state) => {
-            state.deletingTodo_state = "loading";
         },
         deleted_todo: (state) => {
             state.deletingTodo_state = "deleted";
@@ -143,9 +137,7 @@ export const {
     hideDeleteTodo_form,
     showEditTodo_form,
     hideEditTodo_form,
-    creating_todo,
     created_todo,
-    deleting_todo,
     deleted_todo,
     todoState_clean,
     getting_todos,
