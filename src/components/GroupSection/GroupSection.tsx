@@ -22,8 +22,7 @@ const GroupSection = () => {
         dispatch(selectA_group(group));
         dispatch(getTodosfrom_group(group.customId));
         dispatch(todosOrderBy_NoCompleted());
-        dispatch(gettingTodos_completed());
-        dispatch(whenGettingTodos_error());
+        // dispatch(gettingTodos_completed());
     }
 
     return (
