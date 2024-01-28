@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { ReactComponent as XmarkIcon } from "../../assets/x-mark.svg";
 import { useDispatch, useSelector } from 'react-redux';
-import { created_todo, creating_todo, hideAddTodo_form, whenAddingTodo_error } from '../../redux/slices/todos';
+import { add_todo, created_todo, hideAddTodo_form, todosOrderBy_NoCompleted, whenAddingTodo_error } from '../../redux/slices/todos';
 import { postTodoToFireStore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
-import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
+import { Task } from '../../models/models';
+import { nanoid } from '@reduxjs/toolkit';
 
 const FormAddTodo = () => {
     const dispatch = useDispatch();
@@ -21,10 +22,21 @@ const FormAddTodo = () => {
 
     const addTodo = async () => {
         try {
-            dispatch(creating_todo());
-            await postTodoToFireStore(todoTitle, groupSelected.id);
-            dispatch(created_todo());
-            setTodoTitle("");
+            if (groupSelected) {
+                const newTodo: Task = {
+                    customId: nanoid(),
+                    title: todoTitle,
+                    idGroup: groupSelected.customId,
+                    todoCompleted: false
+                };
+                dispatch(add_todo(newTodo));
+                dispatch(todosOrderBy_NoCompleted());
+                dispatch(created_todo());
+                setTodoTitle("");
+                await postTodoToFireStore(newTodo);
+            } else {
+                dispatch(whenAddingTodo_error());
+            }
         } catch (error) {
             dispatch(whenAddingTodo_error());
         }
@@ -34,21 +46,18 @@ const FormAddTodo = () => {
 
         <div className='form-container'>
 
-            {submitState === "loading" ?
-                <Loading></Loading>
+            {submitState === "created" || errorWhenAddingTodo ?
+                <ResultCard errorMsg={errorWhenAddingTodo} msg='Todo created successfully' type="todos"></ResultCard>
                 :
-                submitState === "created" || errorWhenAddingTodo ?
-                    <ResultCard errorMsg={errorWhenAddingTodo} msg='Todo created successfully' type="todos"></ResultCard>
-                    :
-                    <div className="form">
-                        <p className='title-form'>ADDING A TODO</p>
-                        <div className='close-icon-container'>
-                            <XmarkIcon className='xmark-icon' onClick={closeForm} />
-                        </div>
-                        <label>Add a todo to your group: </label>
-                        <input type="text" value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} disabled={submitState !== ""} />
-                        <button className={"btn btn-green " + submitState} type="submit" onClick={addTodo} disabled={!todoTitle || submitState === "loading"}>Create</button>
+                <div className="form">
+                    <p className='title-form'>ADDING A TODO</p>
+                    <div className='close-icon-container'>
+                        <XmarkIcon className='xmark-icon' onClick={closeForm} />
                     </div>
+                    <label>Add a todo to your group: </label>
+                    <input type="text" value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} disabled={submitState !== ""} />
+                    <button className={"btn btn-green " + submitState} type="submit" onClick={addTodo} disabled={!todoTitle || submitState === "loading"}>Create</button>
+                </div>
             }
 
         </div>

@@ -16,8 +16,8 @@ export default function StickyWall() {
     return (
         <div className='stickywall'>
             <div className='title-wall'>
-                <h1 className='group-title-in-the-wall'>{!group.title ? "Choose a group" : group.title}</h1><h2>wall</h2>
-                {groups.length > 0 && group.title !== "" &&
+                <h1 className='group-title-in-the-wall'>{!group ? "Choose a group" : group.title}</h1><h2>wall</h2>
+                {groups.length > 0 && group &&
                     <button className="btn btn-green" type="button" onClick={showForm}>Add to-do</button>
                 }
             </div>

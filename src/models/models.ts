@@ -1,11 +1,11 @@
 export interface Group{
-    id: string;
+    customId: string;
     title: string;
 }
 
 
 export interface Task{
-    id: string;
+    customId: string;
     title: string;
     idGroup: string;
     todoCompleted: boolean;

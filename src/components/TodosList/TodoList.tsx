@@ -1,36 +1,13 @@
-import { useEffect } from "react";
 import Todo from "../Todo/Todo";
 import "./TodoList.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getting_todos, gettingTodos_completed, todos_set, whenGettingTodos_error } from "../../redux/slices/todos";
-import { getTodosFromFirstGroupFirestore } from "../../services/firebaseServices";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { selectA_group } from "../../redux/slices/group";
 
 export default function TodoList() {
 
-    const dispatch = useDispatch();
-
-    const arrayTodos = useSelector((state: RootState) => state.todos.todos);
-    const gettingState = useSelector((state: RootState) => state.todos.gettingTodos_state)
-    const errorWhenGettingTodos = useSelector((state: RootState) => state.todos.gettingTodos_error)
-
-
-    useEffect(() => {
-        const getTodos = async () => {
-            try {
-                dispatch(getting_todos());
-                const { todosData, firstGroup } = await getTodosFromFirstGroupFirestore();
-                dispatch(todos_set(todosData));
-                dispatch(selectA_group(firstGroup));
-                dispatch(gettingTodos_completed());
-            } catch (error) {
-                dispatch(whenGettingTodos_error());
-            }
-        };
-
-        getTodos();
-    }, []);
+    const arrayTodos = useSelector((state: RootState) => state.todos.todosFrom_group);
+    const gettingState = useSelector((state: RootState) => state.todos.gettingTodos_state);
+    const errorWhenGettingTodos = useSelector((state: RootState) => state.todos.gettingTodos_error);
 
     return (
         <div className='to-dos-container'>
@@ -47,7 +24,7 @@ export default function TodoList() {
                     : gettingState === "completed" ? (
 
                         arrayTodos.map(todo => (
-                            <Todo key={todo.id} todo={todo}></Todo>
+                            <Todo key={todo.customId} todo={todo}></Todo>
                         ))
                     )
                         :

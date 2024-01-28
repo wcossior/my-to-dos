@@ -6,7 +6,7 @@ interface initialGroupState {
     addingGroup_state: string;
     groups: Group[];
     gettingGroups_state: string;
-    group_selected: Group;
+    group_selected: Group | null;
     gettingGroups_error: null | string;
     addingGroup_error: null | string;
     deletingGroup_error: null | string;
@@ -17,10 +17,7 @@ const initialState: initialGroupState = {
     addingGroup_state: "",
     groups: [],
     gettingGroups_state: "",
-    group_selected: {
-        id: "",
-        title: "",
-    },
+    group_selected: null,
     gettingGroups_error: null,
     addingGroup_error: null,
     deletingGroup_error: null,
@@ -56,7 +53,7 @@ const groupSlice = createSlice({
         gettingGroups_completed: (state) => {
             state.gettingGroups_state = "completed";
         },
-        groups_set: (state, action: PayloadAction<Group[]>) => {
+        set_groups: (state, action: PayloadAction<Group[]>) => {
             state.groups = action.payload;
             state.gettingGroups_error = null;
             state.gettingGroups_state = "";
@@ -64,13 +61,18 @@ const groupSlice = createSlice({
         selectA_group: (state, action: PayloadAction<Group>) => {
             state.group_selected = action.payload;
         },
+        add_group: (state, action: PayloadAction<Group>) => {
+            state.groups.push(action.payload);
+        },
+        groupsOrderBy_title: (state) => {
+            const groupsOrdered = state.groups.slice().sort((a, b) => a.title.localeCompare(b.title));
+            state.groups = groupsOrdered;
+        },
         whenGettingGroups_error: (state) => {
             state.gettingGroups_error = "Error when getting groups";
-            state.gettingGroups_state = "";
         },
         whenAddingGroup_error: (state) => {
             state.addingGroup_error = "Error when adding a group";
-            state.addingGroup_state = "";
         },
         whenDeletingGroup_error: (state) => {
             state.deletingGroup_error = "Error when deleting a group";
@@ -81,12 +83,13 @@ const groupSlice = createSlice({
 export const {
     showAddGroup_form,
     hideAddGroup_form,
-    creating_group,
     created_group,
     groupState_clean,
     getting_groups,
     gettingGroups_completed,
-    groups_set,
+    set_groups,
+    add_group,
+    groupsOrderBy_title,
     selectA_group,
     whenGettingGroups_error,
     whenAddingGroup_error,

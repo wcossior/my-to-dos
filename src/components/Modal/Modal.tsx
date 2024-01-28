@@ -1,9 +1,8 @@
-import React from 'react';
 import "./Modal.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTodoFireStore } from '../../services/firebaseServices';
 import { RootState } from '../../redux/store';
-import { deleted_todo, deleting_todo, hideDeleteTodo_form, whenDeletingTodo_error } from '../../redux/slices/todos';
+import { delete_todo, deleted_todo, hideDeleteTodo_form, whenDeletingTodo_error } from '../../redux/slices/todos';
 import Loading from '../Loading/Loading';
 import ResultCard from '../ResultCard/ResultCard';
 
@@ -19,9 +18,9 @@ const Modal = () => {
 
     const deleteTodo = async () => {
         try {
-            dispatch(deleting_todo());
-            await deleteTodoFireStore(idTodo);
+            dispatch(delete_todo(idTodo));
             dispatch(deleted_todo());
+            await deleteTodoFireStore(idTodo);
         } catch (error) {
             dispatch(whenDeletingTodo_error());
         }

@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, limit, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { Group } from '../models/models';
 import { Task } from '../models/models';
@@ -11,7 +11,7 @@ export const getGroupsFromFirestore = async () => {
 
         const groupsData: Group[] = [];
         groupsSnapshot.forEach((document) => {
-            const group = { id: document.id, title: document.data().title };
+            const group: Group = { customId: document.data().customId, title: document.data().title };
             groupsData.push(group);
         });
         return groupsData;
@@ -21,35 +21,55 @@ export const getGroupsFromFirestore = async () => {
     }
 };
 
-export const postGroupToFireStore = async (title: string) => {
+export const getTodos_FromFirestore = async () => {
+    try {
+        const groupsCollection = collection(db, 'todos');
+        const groupsSnapshot = await getDocs(groupsCollection);
+
+        const todosData: Task[] = [];
+        groupsSnapshot.forEach((document) => {
+            const todo: Task = {
+                customId: document.data().customId,
+                title: document.data().title,
+                idGroup: document.data().idGroup,
+                todoCompleted: document.data().todoCompleted
+            };
+            todosData.push(todo);
+        });
+        return todosData;
+    } catch (error) {
+        console.error('Error fetching todos:', error);
+        throw error;
+    }
+};
+
+export const postGroupToFireStore = async (group: Group) => {
     try {
         const groupsCollection = collection(db, 'groups');
-        const newGroup = { title };
-        await addDoc(groupsCollection, newGroup);
+        const groupDocRef = doc(groupsCollection, group.customId);
+        await setDoc(groupDocRef, group);
+    } catch (error) {
+        console.error('Error when adding a group:', error);
+        throw error;
+    }
+}
+
+export const postTodoToFireStore = async (todo: Task) => {
+    try {
+        const todosCollection = collection(db, 'todos');
+        const todoDocRef = doc(todosCollection, todo.customId);
+        await setDoc(todoDocRef, todo);
     } catch (error) {
         console.error('Error when addding a group:', error);
         throw error;
     }
 }
 
-export const postTodoToFireStore = async (title: string, idGroup: string) => {
+export const checkTodoToFireStore = async (todo: Task) => {
     try {
         const todosCollection = collection(db, 'todos');
-        const newTodo = { title, idGroup, todoCompleted: false };
-        await addDoc(todosCollection, newTodo);
-    } catch (error) {
-        console.error('Error when addding a group:', error);
-        throw error;
-    }
-}
-
-export const checkTodoToFireStore = async (idTodo: string, todoCompleted: boolean) => {
-    try {
-        const todosCollection = collection(db, 'todos');
-        const todoDoc = doc(todosCollection, idTodo);
-
-        const updatedTodo = { todoCompleted };
-
+        const todoDoc = doc(todosCollection, todo.customId);
+        const updatedTodo = { todoCompleted: todo.todoCompleted };
         await updateDoc(todoDoc, updatedTodo);
     } catch (error) {
         console.error('Error when updating check todo:', error);
@@ -67,57 +87,3 @@ export const deleteTodoFireStore = async (idTodo: string) => {
         throw error;
     }
 }
-
-export const getTodosFromFirestore = async (idGroup: string) => {
-    try {
-        const todosCollection = collection(db, 'todos');
-        const todosQuery = query(todosCollection, where('idGroup', '==', idGroup), orderBy('title', 'asc'));
-        const todosSnapshot = await getDocs(todosQuery);
-
-        const todosData: Task[] = [];
-        todosSnapshot.forEach((document) => {
-            const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup, todoCompleted: document.data().todoCompleted };
-            todosData.push(todo);
-        });
-        return todosData;
-    } catch (error) {
-        console.error('Error fetching todos:', error);
-        throw error;
-    }
-};
-
-export const getTodosFromFirstGroupFirestore = async () => {
-    try {
-        const groupsCollection = collection(db, 'groups');
-        const groupsCollectionOrdered = query(groupsCollection, orderBy('title', 'asc'), limit(1));
-        const groupsSnapshot = await getDocs(groupsCollectionOrdered);
-        const groupsData: Group[] = [];
-
-        groupsSnapshot.forEach((document) => {
-            const group = { id: document.id, title: document.data().title };
-            groupsData.push(group);
-        });
-        if (groupsData.length > 0) {
-            const firstGroup = groupsData[0];
-            const todosCollection = collection(db, 'todos');
-            const todosQuery = query(todosCollection, where('idGroup', '==', firstGroup.id), orderBy('title', 'asc'));
-            const todosSnapshot = await getDocs(todosQuery);
-
-            const todosData: Task[] = [];
-            todosSnapshot.forEach((document) => {
-                const todo = { id: document.id, title: document.data().title, idGroup: document.data().idGroup, todoCompleted: document.data().todoCompleted };
-                todosData.push(todo);
-            });
-            return { todosData, firstGroup };
-        }
-        const todosData: Task[] = [];
-        const firstGroup: Group = {
-            id: "",
-            title: "",
-        };
-        return { todosData, firstGroup };
-    } catch (error) {
-        console.error('Error fetching todos:', error);
-        throw error;
-    }
-};

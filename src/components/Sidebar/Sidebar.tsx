@@ -1,4 +1,3 @@
-import React, { Component, useEffect } from 'react';
 import "./Sidebar.css";
 import UserSection from '../UserSection/UserSection';
 import GroupSection from '../GroupSection/GroupSection';

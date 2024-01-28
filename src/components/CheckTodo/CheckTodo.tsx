@@ -1,8 +1,7 @@
-import React from 'react';
 import { ReactComponent as CheckIcon } from "../../assets/check.svg";
 import "./CheckTodo.css";
-import { checkTodoToFireStore, getTodosFromFirestore } from '../../services/firebaseServices';
-import { getting_todos, gettingTodos_completed, todos_set, whenCheckingTodo_error, whenGettingTodos_error } from '../../redux/slices/todos';
+import { checkTodoToFireStore } from '../../services/firebaseServices';
+import { todosOrderBy_NoCompleted, uptade_todo, whenCheckingTodo_error } from '../../redux/slices/todos';
 import { useDispatch, useSelector } from 'react-redux';
 import { Task } from '../../models/models';
 import { RootState } from '../../redux/store';
@@ -13,23 +12,21 @@ export default function CheckTodo({ todo }: { todo: Task }) {
 
     async function todoCompleted() {
         try {
-            await checkTodoToFireStore(todo.id, !todo.todoCompleted);
-            getTodos();
+            if (groupSelected) {
+                const newTodo: Task ={
+                    ...todo,
+                    todoCompleted: !todo.todoCompleted
+                };
+                dispatch(uptade_todo(newTodo));
+                dispatch(todosOrderBy_NoCompleted());
+                await checkTodoToFireStore(newTodo);
+            } else {
+                dispatch(whenCheckingTodo_error());
+            }
         } catch (error) {
             dispatch(whenCheckingTodo_error());
         }
     }
-
-    const getTodos = async () => {
-        try {
-            dispatch(getting_todos());
-            const todos = await getTodosFromFirestore(groupSelected.id);
-            dispatch(todos_set(todos));
-            dispatch(gettingTodos_completed());
-        } catch (error) {
-            dispatch(whenGettingTodos_error());
-        }
-    };
 
     return (
         <div
